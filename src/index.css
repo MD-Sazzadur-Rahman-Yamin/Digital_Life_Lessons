@@ -160,24 +160,12 @@ select:focus {
    LAYOUT & SPACING
 ================================= */
 .container {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 .section {
   padding: 4rem 0;
-}
-
-/* ===============================
-   LINKS
-================================= */
-a {
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-a:hover {
-  color: oklch(50% 0.2 250);
 }
 
 /* ===============================
