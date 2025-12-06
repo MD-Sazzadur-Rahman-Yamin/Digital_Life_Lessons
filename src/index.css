@@ -1,2 +1,342 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+/* ===============================
+   TYPOGRAPHY
+================================= */
+
+/* Base font for the entire site */
+html,
+body,
+input,
+textarea,
+select,
+button {
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--color-base-content);
+}
+
+/* Headings – slightly more stylish */
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Poppins", "Inter", system-ui, sans-serif;
+  margin: 0;
+}
+
+/* Headings size & weight */
+h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+h2 {
+  font-size: 2.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+h4 {
+  font-size: 1.375rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Body text */
+p,
+span,
+li {
+  font-size: 1rem; /* 16px */
+  font-weight: 400;
+}
+
+/* Large body */
+.body-large {
+  font-size: 1.125rem;
+  font-weight: 400;
+}
+
+/* Small text / captions */
+.small-text {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.tiny-text {
+  font-size: 0.75rem;
+  font-weight: 400;
+}
+
+/* ===============================
+   BUTTONS
+================================= */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-accent {
+  font-family: "Inter", system-ui, sans-serif; /* ensure buttons inherit font */
+  font-weight: 600;
+  border-radius: 0.625rem; /* 10px */
+  padding: 0.625rem 1.25rem;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: var(--color-primary-content);
+}
+.btn-primary:hover {
+  background-color: oklch(50% 0.2 250);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-content);
+}
+.btn-accent {
+  background-color: var(--color-accent);
+  color: var(--color-accent-content);
+}
+
+/* ===============================
+   INPUTS / FORMS
+================================= */
+input,
+textarea,
+select {
+  font-family: "Inter", system-ui, sans-serif;
+  border: 1px solid var(--color-base-300);
+  border-radius: 0.625rem;
+  padding: 0.625rem 1rem;
+  font-size: 1rem;
+  color: var(--color-base-content);
+  background-color: var(--color-base-100);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px oklch(60% 0.15 250 / 0.3);
+}
+
+/* ===============================
+   CARDS / PANELS
+================================= */
+.card {
+  font-family: "Inter", system-ui, sans-serif;
+  background-color: var(--color-base-200);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-family: "Poppins", "Inter", sans-serif;
+  font-size: 1.375rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.card-body {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ===============================
+   LAYOUT & SPACING
+================================= */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.section {
+  padding: 4rem 0;
+}
+
+/* ===============================
+   LINKS
+================================= */
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+a:hover {
+  color: oklch(50% 0.2 250);
+}
+
+/* ===============================
+   UTILITY CLASSES
+================================= */
+.text-primary {
+  color: var(--color-primary);
+}
+.text-secondary {
+  color: var(--color-secondary);
+}
+.text-accent {
+  color: var(--color-accent);
+}
+.text-neutral {
+  color: var(--color-neutral);
+}
+
+.bg-primary {
+  background-color: var(--color-primary);
+}
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+.bg-accent {
+  background-color: var(--color-accent);
+}
+.bg-neutral {
+  background-color: var(--color-neutral);
+}
+
+/* Smooth transitions for theme toggle */
+html {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* ===============================
+   DAISYUI THEMES
+================================= */
+
+/* Digital Life Lessons Theme */
+@plugin "daisyui/theme" {
+  name: "life_lessons_theme_light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* Background / Surface */
+  --color-base-100: oklch(98% 0.015 240); /* white slightly cool */
+  --color-base-200: oklch(96% 0.02 240); /* soft surface */
+  --color-base-300: oklch(93% 0.025 240); /* card edge */
+  --color-base-content: oklch(22% 0.04 240);
+
+  /* Primary – Soft Digital Blue */
+  --color-primary: oklch(60% 0.2 250);
+  --color-primary-content: oklch(98% 0.01 250);
+
+  /* Secondary – Mint Green (growth, positivity) */
+  --color-secondary: oklch(78% 0.18 155);
+  --color-secondary-content: oklch(98% 0.01 155);
+
+  /* Accent – Lavender (creativity, reflection) */
+  --color-accent: oklch(75% 0.18 280);
+  --color-accent-content: oklch(98% 0.01 280);
+
+  /* Neutral – Calm navy gray */
+  --color-neutral: oklch(40% 0.04 250);
+  --color-neutral-content: oklch(95% 0.015 250);
+
+  /* Info – Lighter digital blue */
+  --color-info: oklch(70% 0.12 240);
+  --color-info-content: oklch(98% 0.01 240);
+
+  /* Success – Calm emerald */
+  --color-success: oklch(68% 0.22 150);
+  --color-success-content: oklch(98% 0.01 150);
+
+  /* Warning – Soft warm amber */
+  --color-warning: oklch(78% 0.18 85);
+  --color-warning-content: oklch(22% 0.04 85);
+
+  /* Error – Soft coral red */
+  --color-error: oklch(68% 0.22 30);
+  --color-error-content: oklch(98% 0.01 30);
+
+  /* Rounded styles */
+  --radius-selector: 1rem;
+  --radius-field: 0.4rem;
+  --radius-box: 1rem;
+
+  /* Base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* Border width */
+  --border: 1px;
+
+  /* Effects */
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Digital Life Lessons — Dark Theme */
+@plugin "daisyui/theme" {
+  name: "life_lessons_theme_dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* Background / Surface */
+  --color-base-100: oklch(12% 0.02 240); /* main background */
+  --color-base-200: oklch(18% 0.03 240); /* card background */
+  --color-base-300: oklch(24% 0.04 240); /* deeper cards / panels */
+  --color-base-content: oklch(98% 0.02 240); /* text */
+
+  /* Primary – Soft Digital Blue */
+  --color-primary: oklch(60% 0.2 250);
+  --color-primary-content: oklch(98% 0.01 250);
+
+  /* Secondary – Mint Green (growth, positivity) */
+  --color-secondary: oklch(60% 0.18 155);
+  --color-secondary-content: oklch(98% 0.01 155);
+
+  /* Accent – Lavender (creativity, reflection) */
+  --color-accent: oklch(60% 0.18 280);
+  --color-accent-content: oklch(98% 0.01 280);
+
+  /* Neutral – Calm gray */
+  --color-neutral: oklch(28% 0.03 240);
+  --color-neutral-content: oklch(95% 0.02 240);
+
+  /* Info – lighter digital blue */
+  --color-info: oklch(55% 0.12 240);
+  --color-info-content: oklch(98% 0.01 240);
+
+  /* Success – Calm emerald */
+  --color-success: oklch(58% 0.22 150);
+  --color-success-content: oklch(98% 0.01 150);
+
+  /* Warning – Soft amber */
+  --color-warning: oklch(68% 0.18 85);
+  --color-warning-content: oklch(20% 0.05 85);
+
+  /* Error – Soft coral red */
+  --color-error: oklch(60% 0.22 30);
+  --color-error-content: oklch(98% 0.01 30);
+
+  /* Rounded styles */
+  --radius-selector: 1rem;
+  --radius-field: 0.4rem;
+  --radius-box: 1rem;
+
+  /* Base sizes */
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+
+  /* Border width */
+  --border: 1px;
+
+  /* Effects */
+  --depth: 1;
+  --noise: 0;
+}
