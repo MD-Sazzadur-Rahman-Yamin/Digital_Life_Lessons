@@ -1,17 +1,19 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Register = () => {
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
   const handleRegister = (data) => {
     console.log(data);
   };
-  console.log(errors);
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -83,9 +85,11 @@ const Register = () => {
                 </p>
               )}
 
-              <button className="btn btn-secondary mt-4">Create account</button>
+              <button className="btn btn-primary mt-4">Create account</button>
             </fieldset>
           </form>
+          <p className="text-center">OR</p>
+          <SocialLogin></SocialLogin>
           <p>
             Already have an account?
             <Link to="/login" className="text-primary ml-1">

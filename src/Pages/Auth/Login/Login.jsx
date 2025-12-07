@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
   const {
@@ -58,9 +59,11 @@ const Login = () => {
                 </p>
               )}
 
-              <button className="btn btn-secondary mt-4">Create account</button>
+              <button className="btn btn-primary mt-4">Create account</button>
             </fieldset>
           </form>
+          <p className="text-center">OR</p>
+          <SocialLogin></SocialLogin>
           <p>
             Don't Have an Account?
             <Link to="/register" className="text-primary ml-1">
