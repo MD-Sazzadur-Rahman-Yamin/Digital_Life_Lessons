@@ -2,8 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+// import useAuth from "../../../Hooks/useAuth";
 
 const Register = () => {
+  // const { registerUser } = useAuth();
 
   const {
     register,
@@ -13,6 +15,7 @@ const Register = () => {
 
   const handleRegister = (data) => {
     console.log(data);
+    // registerUser();
   };
   return (
     <div className="flex justify-center items-center h-screen">
