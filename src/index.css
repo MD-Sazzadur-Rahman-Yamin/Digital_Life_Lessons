@@ -74,36 +74,6 @@ li {
   font-weight: 400;
 }
 
-/* ===============================
-   BUTTONS
-================================= */
-.btn,
-.btn-primary,
-.btn-secondary,
-.btn-accent {
-  font-family: "Inter", system-ui, sans-serif; /* ensure buttons inherit font */
-  font-weight: 600;
-  border-radius: 0.625rem; /* 10px */
-  padding: 0.625rem 1.25rem;
-  transition: background-color 0.3s;
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: var(--color-primary-content);
-}
-.btn-primary:hover {
-  background-color: oklch(50% 0.2 250);
-}
-
-.btn-secondary {
-  background-color: var(--color-secondary);
-  color: var(--color-secondary-content);
-}
-.btn-accent {
-  background-color: var(--color-accent);
-  color: var(--color-accent-content);
-}
 
 /* ===============================
    INPUTS / FORMS
@@ -166,35 +136,6 @@ select:focus {
 }
 .section {
   padding: 4rem 0;
-}
-
-/* ===============================
-   UTILITY CLASSES
-================================= */
-.text-primary {
-  color: var(--color-primary);
-}
-.text-secondary {
-  color: var(--color-secondary);
-}
-.text-accent {
-  color: var(--color-accent);
-}
-.text-neutral {
-  color: var(--color-neutral);
-}
-
-.bg-primary {
-  background-color: var(--color-primary);
-}
-.bg-secondary {
-  background-color: var(--color-secondary);
-}
-.bg-accent {
-  background-color: var(--color-accent);
-}
-.bg-neutral {
-  background-color: var(--color-neutral);
 }
 
 /* Smooth transitions for theme toggle */

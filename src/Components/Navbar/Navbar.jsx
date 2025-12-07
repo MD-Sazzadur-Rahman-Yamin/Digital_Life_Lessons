@@ -1,15 +1,40 @@
 import React from "react";
 import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { Link, NavLink } from "react-router";
+import useAuth from "../../Hooks/useAuth";
+import { CgProfile } from "react-icons/cg";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout()
+      .then(() => {
+        toast.success("Logged out successfully");
+      })
+      .catch((error) => {
+        toast.error("Logout failed. Try again");
+        console.error(error);
+      });
+  };
+
   const navigationLinks = (
     <>
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/">Home</NavLink>
+        <NavLink to="/dashboard/add-lesson">Add Lesson</NavLink>
+      </li>
+      <li>
+        <NavLink to="/dashboard/my-lessons">My Lessons</NavLink>
+      </li>
+      <li>
+        <NavLink to="/public-lessons">Public Lessons</NavLink>
+      </li>
+      <li>
+        <NavLink to="/upgrade">Upgrade</NavLink>
       </li>
     </>
   );
@@ -48,10 +73,58 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navigationLinks}</ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
+        <div className="navbar-end gap-2">
+          {user ? (
+            <div className="dropdown dropdown-end">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  {user ? (
+                    <img alt="Profile" src={user?.photoURL} />
+                  ) : (
+                    <div className="flex justify-center items-center">
+                      <CgProfile className="h-full w-full" />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <ul
+                tabIndex="-1"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              >
+                <li>
+                  {user.displayName ? user.displayName : "Name not found"}
+                </li>
+                <li>
+                  <Link to=" /dashboard/profile">Profile</Link>
+                </li>
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+                <li>
+                  <button onClick={handleLogout}>Logout</button>
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <button className="btn btn-primary text-base-content">
+                  Login
+                </button>
+              </Link>
+              <Link to="/register">
+                <button className="btn btn-secondary text-base-content">
+                  Register
+                </button>
+              </Link>
+            </div>
+          )}
+          <ThemeToggle></ThemeToggle>
         </div>
-        <ThemeToggle></ThemeToggle>
       </div>
     </div>
   );

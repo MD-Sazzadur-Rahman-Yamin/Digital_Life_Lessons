@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 const ThemeToggle = () => {
   // Load saved theme from localStorage or default to light
@@ -21,8 +22,11 @@ const ThemeToggle = () => {
   };
 
   return (
-    <button onClick={toggleTheme} className="btn btn-primary">
-      {theme === "life_lessons_theme_light" ? "Dark Mode" : "Light Mode"}
+    <button
+      onClick={toggleTheme}
+      className="btn btn-primary btn-soft btn-circle"
+    >
+      {theme === "life_lessons_theme_light" ? <MdDarkMode /> : <MdLightMode />}
     </button>
   );
 };
