@@ -93,7 +93,6 @@ const Login = () => {
                   "Create account"
                 )}
               </button>
-              <button className="btn btn-primary mt-4">Create account</button>
             </fieldset>
           </form>
           <p className="text-center">OR</p>

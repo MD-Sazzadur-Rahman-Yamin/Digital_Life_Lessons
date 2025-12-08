@@ -4,6 +4,9 @@ import Home from "../Pages/Home/Home/Home";
 import Register from "../Pages/Auth/Register/Register";
 import Login from "../Pages/Auth/Login/Login";
 import Error from "../Components/Error/Error";
+import Upgrade from "../Pages/Upgrade/Upgrade";
+import PrivateRourte from "../Provider/PrivateRourte";
+import UpgradeSuccessful from "../Pages/Upgrade/UpgradeSuccessful";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +25,22 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login></Login>,
+      },
+      {
+        path: "upgrade",
+        element: (
+          <PrivateRourte>
+            <Upgrade></Upgrade>
+          </PrivateRourte>
+        ),
+      },
+      {
+        path: "upgrade-successful",
+        element: (
+          <PrivateRourte>
+            <UpgradeSuccessful></UpgradeSuccessful>,
+          </PrivateRourte>
+        ),
       },
     ],
   },
