@@ -28,7 +28,6 @@ const Upgrade = () => {
         <p className="text-sm opacity-80 mb-4">
           Clear comparison of features — choose what fits you.
         </p>
-
         <div className="overflow-x-auto">
           <table className="table table-zebra w-full">
             <thead>
@@ -118,10 +117,6 @@ const Upgrade = () => {
                 <td className="text-center">৳1500 / Lifetime</td>
               </tr>
               <tr>
-                {/* <td></td> */}
-                {/* <td className="text-center">
-                    <button className="btn btn-outline btn-sm">Get Free</button>
-                  </td> */}
                 <td className="text-center" colSpan="3">
                   <button
                     className="btn w-full bg-[#FFD700] text-black! hover:brightness-90"
