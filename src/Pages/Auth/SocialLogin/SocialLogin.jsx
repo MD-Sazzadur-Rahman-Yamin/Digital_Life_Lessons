@@ -2,18 +2,37 @@ import React from "react";
 import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const SocialLogin = () => {
+  const axiosSecure = useAxiosSecure();
+
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
-      .then(() => {
-        //result
-        toast.success("Successfully signed in!");
-        navigate(location?.state || "/");
+      .then((result) => {
+        const user = result.user;
+
+        // Prepare user info for backend
+        const userInfo = {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        };
+
+        // Send to backend
+        axiosSecure
+          .post("/users/sync", userInfo)
+          .then(() => {
+            toast.success("Successfully signed in!");
+            navigate(location?.state || "/");
+          })
+          .catch((err) => {
+            console.error(err);
+            toast.error("User sync failed");
+          });
       })
       .catch((error) => {
         const code = error.code;
