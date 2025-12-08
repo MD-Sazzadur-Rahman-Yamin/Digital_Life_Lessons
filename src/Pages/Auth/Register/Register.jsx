@@ -2,10 +2,12 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
-// import useAuth from "../../../Hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Register = () => {
-  // const { registerUser } = useAuth();
+  const { registerUser, updateUserProfile } = useAuth();
 
   const {
     register,
@@ -15,8 +17,48 @@ const Register = () => {
 
   const handleRegister = (data) => {
     console.log(data);
-    // registerUser();
+    const profileImg = data.profilePhoto[0];
+    registerUser(data.email, data.password)
+      .then((res) => {
+        console.log(res.user);
+        //store the image and get url
+        const formData = new formData();
+        formData.append("image", profileImg);
+        const image_api_url = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host_key
+        }`;
+        axios.post(image_api_url, formData).then((res) => {
+          //update user profile
+          const userProfile = {
+            displayName: data.name,
+            photoURL: res.data.data.url,
+          };
+          updateUserProfile(userProfile)
+            .then(() => {
+              toast.success("Account created successfully");
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+
+        if (err.code === "auth/email-already-in-use") {
+          toast.error("Email already in use. Try another one");
+        } else if (err.code === "auth/invalid-email") {
+          toast.error("Invalid email format");
+        } else if (err.code === "auth/weak-password") {
+          toast.error("Weak password. Use at least 6 characters");
+        } else if (err.code === "auth/network-request-failed") {
+          toast.error("Network error. Check your internet connection");
+        } else {
+          toast.error("Something went wrong. Try again");
+        }
+      });
   };
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
