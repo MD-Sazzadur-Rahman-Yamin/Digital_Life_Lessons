@@ -1,17 +1,43 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
+import useAuth from "../../../Hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Login = () => {
+  const { loginUser } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLogin = (data) => {
-    console.log(data);
+    loginUser(data.email, data.password)
+      .then(() => {
+        toast.success("Logged in successfully");
+        navigate(location?.state || "/");
+      })
+      .catch((err) => {
+        console.log(err);
+
+        if (err.code === "auth/user-not-found") {
+          toast.error("No account found with this email");
+        } else if (err.code === "auth/wrong-password") {
+          toast.error("Incorrect password");
+        } else if (err.code === "auth/invalid-email") {
+          toast.error("Invalid email address");
+        } else if (err.code === "auth/network-request-failed") {
+          toast.error("Network error. Check your internet");
+        } else {
+          toast.error("Login failed. Try again");
+        }
+      });
   };
+
   console.log(errors);
   return (
     <div className="flex justify-center items-center h-screen">
@@ -66,7 +92,11 @@ const Login = () => {
           <SocialLogin></SocialLogin>
           <p>
             Don't Have an Account?
-            <Link to="/register" className="text-primary ml-1">
+            <Link
+              state={location?.state}
+              to="/register"
+              className="text-primary ml-1"
+            >
               Register
             </Link>
           </p>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
@@ -8,6 +8,8 @@ import axios from "axios";
 
 const Register = () => {
   const { registerUser, updateUserProfile } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -36,6 +38,7 @@ const Register = () => {
           updateUserProfile(userProfile)
             .then(() => {
               toast.success("Account created successfully");
+              navigate(location?.state || "/");
             })
             .catch((error) => {
               console.log(error);
@@ -137,7 +140,11 @@ const Register = () => {
           <SocialLogin></SocialLogin>
           <p>
             Already have an account?
-            <Link to="/login" className="text-primary ml-1">
+            <Link
+              state={location?.state}
+              to="/login"
+              className="text-primary ml-1"
+            >
               Login
             </Link>
           </p>
