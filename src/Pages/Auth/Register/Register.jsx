@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
@@ -8,90 +8,96 @@ import axios from "axios";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Register = () => {
+  const [registerLoading, setRegisterLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const { registerUser, updateUserProfile } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-const handleRegister = (data) => {
+  const handleRegister = (data) => {
+    setRegisterLoading(true);
+    const profileImg = data.profilePhoto[0];
 
-  const profileImg = data.profilePhoto[0];
+    registerUser(data.email, data.password)
+      .then((res) => {
+        console.log(res.user);
 
-  registerUser(data.email, data.password)
-    .then((res) => {
-      console.log(res.user);
+        // store the image and get URL
+        const formData = new FormData();
+        formData.append("image", profileImg);
 
-      // store the image and get URL
-      const formData = new FormData();
-      formData.append("image", profileImg);
+        const image_api_url = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host_key
+        }`;
 
-      const image_api_url = `https://api.imgbb.com/1/upload?key=${
-        import.meta.env.VITE_image_host_key
-      }`;
+        axios
+          .post(image_api_url, formData)
+          .then((imgRes) => {
+            const imageURL = imgRes.data.data.url;
 
-      axios
-        .post(image_api_url, formData)
-        .then((imgRes) => {
-          const imageURL = imgRes.data.data.url;
+            // update user profile
+            const userProfile = {
+              displayName: data.name,
+              photoURL: imageURL,
+            };
 
-          // update user profile
-          const userProfile = {
-            displayName: data.name,
-            photoURL: imageURL,
-          };
+            //update displeyName and photoURL
+            updateUserProfile(userProfile)
+              .then(() => {
+                //data for save mongodb
+                const userInfo = {
+                  name: data.name,
+                  email: data.email,
+                  photoURL: imageURL,
+                };
+                //send data to mengodb
+                axiosSecure
+                  .post("/users/sync", userInfo)
+                  .then(() => {
+                    setRegisterLoading(false);
+                    toast.success("Account created successfully");
+                    navigate(location?.state || "/");
+                  })
+                  .catch((err) => {
+                    setRegisterLoading(false);
+                    console.error(err);
+                    toast.error("Server sync failed");
+                  });
+              })
+              .catch((error) => {
+                setRegisterLoading(false);
+                console.error(error);
+                toast.error("Could not update user profile");
+              });
+          })
+          .catch((error) => {
+            setRegisterLoading(false);
+            console.error(error);
+            toast.error("Image upload failed");
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+        setRegisterLoading(false);
 
-          updateUserProfile(userProfile)
-            .then(() => {
-              const userInfo = {
-                name: data.name,
-                email: data.email,
-                photoURL: imageURL,
-              };
-
-              axiosSecure
-                .post("/users/sync", userInfo)
-                .then(() => {
-                  toast.success("Account created successfully");
-                  navigate(location?.state || "/");
-                })
-                .catch((err) => {
-                  console.error(err);
-                  toast.error("Server sync failed");
-                });
-            })
-            .catch((error) => {
-              console.error(error);
-              toast.error("Could not update user profile");
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-          toast.error("Image upload failed");
-        });
-    })
-    .catch((err) => {
-      console.log(err);
-
-      if (err.code === "auth/email-already-in-use") {
-        toast.error("Email already in use. Try another one");
-      } else if (err.code === "auth/invalid-email") {
-        toast.error("Invalid email format");
-      } else if (err.code === "auth/weak-password") {
-        toast.error("Weak password. Use at least 6 characters");
-      } else if (err.code === "auth/network-request-failed") {
-        toast.error("Network error. Check your internet connection");
-      } else {
-        toast.error("Something went wrong. Try again");
-      }
-    });
-};
-
+        if (err.code === "auth/email-already-in-use") {
+          toast.error("Email already in use. Try another one");
+        } else if (err.code === "auth/invalid-email") {
+          toast.error("Invalid email format");
+        } else if (err.code === "auth/weak-password") {
+          toast.error("Weak password. Use at least 6 characters");
+        } else if (err.code === "auth/network-request-failed") {
+          toast.error("Network error. Check your internet connection");
+        } else {
+          toast.error("Something went wrong. Try again");
+        }
+      });
+  };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -164,7 +170,16 @@ const handleRegister = (data) => {
                 </p>
               )}
 
-              <button className="btn btn-primary mt-4">Create account</button>
+              <button
+                className="btn btn-primary mt-4"
+                disabled={registerLoading}
+              >
+                {registerLoading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Create account"
+                )}
+              </button>
             </fieldset>
           </form>
           <p className="text-center">OR</p>

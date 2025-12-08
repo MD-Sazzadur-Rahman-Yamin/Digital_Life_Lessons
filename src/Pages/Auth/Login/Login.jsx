@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
@@ -6,6 +6,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const [loginLoading,setLoginLoading] = useState(false)
   const { loginUser } = useAuth();
   const {
     register,
@@ -16,14 +17,16 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = (data) => {
+    setLoginLoading(true);
     loginUser(data.email, data.password)
       .then(() => {
+        setLoginLoading(false);
         toast.success("Logged in successfully");
         navigate(location?.state || "/");
       })
       .catch((err) => {
         console.log(err);
-
+        setLoginLoading(false``);
         if (err.code === "auth/user-not-found") {
           toast.error("No account found with this email");
         } else if (err.code === "auth/wrong-password") {
@@ -38,7 +41,6 @@ const Login = () => {
       });
   };
 
-  console.log(errors);
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -84,7 +86,13 @@ const Login = () => {
                   Password must contain both uppercase and lowercase letters
                 </p>
               )}
-
+              <button className="btn btn-primary mt-4" disabled={loginLoading}>
+                {loginLoading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Create account"
+                )}
+              </button>
               <button className="btn btn-primary mt-4">Create account</button>
             </fieldset>
           </form>

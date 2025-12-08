@@ -6,10 +6,10 @@ import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const SocialLogin = () => {
   const axiosSecure = useAxiosSecure();
-
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+
   const handleSignInWithGoogle = () => {
     signInWithGoogle()
       .then((result) => {
