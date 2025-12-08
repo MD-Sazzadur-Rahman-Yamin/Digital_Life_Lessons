@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import Spinner from "../../Components/Spinner/Spinner";
 
 const UpgradeSuccessful = () => {
+  const [transactionId, setTransactionId] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const axiosSecure = useAxiosSecure();
-  const [transactionId, setTransactionId] = useState(null);
   useEffect(() => {
     //varify payment
     if (sessionId) {
@@ -18,16 +20,23 @@ const UpgradeSuccessful = () => {
             toast("Payment Verifyed");
           }
           setTransactionId(res.data.transactionId);
+          setLoading(false);
         });
     }
   }, [sessionId, axiosSecure]);
   return (
     <div className="flex flex-col justify-center items-center gap-4 min-h-screen">
-      <h2>Upgrade Successful</h2>
-      <p>Transaction ID:{transactionId}</p>
-      <Link to="/">
-        <button className="btn btn-primary">Go Home</button>
-      </Link>
+      {loading ? (
+        <Spinner></Spinner>
+      ) : (
+        <>
+          <h2>Upgrade Successful</h2>
+          <p>Transaction ID: {transactionId}</p>
+          <Link to="/">
+            <button className="btn btn-primary">Go Home</button>
+          </Link>
+        </>
+      )}
     </div>
   );
 };
