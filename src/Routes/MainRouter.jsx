@@ -10,6 +10,7 @@ import UpgradeSuccessful from "../Pages/Upgrade/UpgradeSuccessful";
 import UpgradeFailed from "../Pages/Upgrade/UpgradeFailed";
 import Dashboard from "../Layouts/DashboardLayout/DashboardLayout";
 import AddLesson from "../Pages/Dashboard/AddLesson/AddLesson";
+import MyLessons from "../Pages/Dashboard/MyLessons/MyLessons";
 
 const router = createBrowserRouter([
   {
@@ -63,12 +64,16 @@ const router = createBrowserRouter([
       </PrivateRourte>
     ),
     errorElement: <Error></Error>,
-    children:[
+    children: [
       {
-        path:'add-lesson',
-        element:<AddLesson></AddLesson>
-      }
-    ]
+        path: "add-lesson",
+        element: <AddLesson></AddLesson>,
+      },
+      {
+        path: "my-lessons",
+        element: <MyLessons></MyLessons>,
+      },
+    ],
   },
 ]);
 

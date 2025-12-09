@@ -7,6 +7,8 @@ import useIsPremium from "../../../Hooks/useIsPremium";
 import { toast } from "react-toastify";
 
 const AddLesson = () => {
+  const [addLessonLoading, setaddLessonLoading] = useState(false);
+
   const isPremium = useIsPremium();
   const [category, setCategory] = useState([]);
   const [emotionalTone, setEmotionalTone] = useState([]);
@@ -27,6 +29,7 @@ const AddLesson = () => {
   } = useForm();
 
   const handleAddLesson = (data) => {
+    setaddLessonLoading(true);
     const lessonInfo = {
       ...data,
       creatorEmail: user.email,
@@ -34,20 +37,19 @@ const AddLesson = () => {
       updatedAt: new Date(),
     };
 
-    console.log(lessonInfo);
-
     axiosSecure
       .post("/lessons", lessonInfo)
       .then((res) => {
+        setaddLessonLoading(false);
         if (res.data.insertedId) {
           toast.success("Lesson added successfully");
         } else {
           toast.success("Lesson saved");
         }
-
         reset();
       })
       .catch((err) => {
+        setaddLessonLoading(false);
         console.error(err);
         toast.error("Failed to add lesson. Try again.");
       });
@@ -146,7 +148,13 @@ const AddLesson = () => {
             <p className="text-red-500 text-sm">Access Level is required</p>
           )}
 
-          <button className="btn btn-neutral mt-4">Add Lesson</button>
+          <button className="btn btn-primary mt-4" disabled={addLessonLoading}>
+            {addLessonLoading ? (
+              <span className="loading loading-spinner"></span>
+            ) : (
+              "Add Lesson"
+            )}
+          </button>
         </fieldset>
       </form>
     </div>

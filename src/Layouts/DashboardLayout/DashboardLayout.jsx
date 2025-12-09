@@ -4,6 +4,7 @@ import ThemeToggle from "../../Components/ThemeToggle/ThemeToggle";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineAddBox } from "react-icons/md";
+import { FiBook } from "react-icons/fi";
 
 const DashboardLayout = () => {
   return (
@@ -87,6 +88,17 @@ const DashboardLayout = () => {
                 {/* icon */}
                 <MdOutlineAddBox />
                 <span className="is-drawer-close:hidden">Add Lesson</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Lessons"
+                to="/dashboard/my-lessons"
+              >
+                {/* icon */}
+                <FiBook />
+                <span className="is-drawer-close:hidden">My Lessons</span>
               </NavLink>
             </li>
           </ul>
