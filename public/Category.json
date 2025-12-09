@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "options": "Personal Growth"
+    },
+    {
+        "id": 2,
+        "options": "Career"
+    },
+    {
+        "id": 3,
+        "options": "Relationships"
+    },
+    {
+        "id": 4,
+        "options": "Mindset"
+    },
+    {
+        "id": 5,
+        "options": "Mistakes Learned"
+    }
+]

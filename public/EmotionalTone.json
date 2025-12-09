@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "options": "Motivational"
+    },
+    {
+        "id": 2,
+        "options": "Sad"
+    },
+    {
+        "id": 3,
+        "options": "Realization"
+    },
+    {
+        "id": 4,
+        "options": "Gratitude"
+    }
+]
