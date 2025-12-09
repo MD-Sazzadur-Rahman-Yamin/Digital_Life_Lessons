@@ -8,6 +8,8 @@ import Upgrade from "../Pages/Upgrade/Upgrade";
 import PrivateRourte from "../Provider/PrivateRourte";
 import UpgradeSuccessful from "../Pages/Upgrade/UpgradeSuccessful";
 import UpgradeFailed from "../Pages/Upgrade/UpgradeFailed";
+import Dashboard from "../Layouts/DashboardLayout/DashboardLayout";
+import AddLesson from "../Pages/Dashboard/AddLesson/AddLesson";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,21 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRourte>
+        <Dashboard></Dashboard>
+      </PrivateRourte>
+    ),
+    errorElement: <Error></Error>,
+    children:[
+      {
+        path:'add-lesson',
+        element:<AddLesson></AddLesson>
+      }
+    ]
   },
 ]);
 

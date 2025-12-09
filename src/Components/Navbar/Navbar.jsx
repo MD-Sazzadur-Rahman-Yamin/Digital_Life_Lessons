@@ -8,8 +8,7 @@ import useIsPremium from "../../Hooks/useIsPremium";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-    const isPrimium = useIsPremium();
-
+  const isPrimium = useIsPremium();
 
   const handleLogout = () => {
     logout()
