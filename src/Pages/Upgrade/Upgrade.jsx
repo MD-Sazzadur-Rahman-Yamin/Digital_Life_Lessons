@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import useIsPremium from "../../Hooks/useIsPremium";
 
 const Upgrade = () => {
   const [paymentLoading, setPaymentLoading] = useState(false);
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+
+  const isPrimium = useIsPremium();
 
   const handleUpgrade = async () => {
     setPaymentLoading(true);
@@ -118,17 +121,26 @@ const Upgrade = () => {
               </tr>
               <tr>
                 <td className="text-center" colSpan="3">
-                  <button
-                    className="btn w-full bg-[#FFD700] text-black! hover:brightness-90"
-                    disabled={paymentLoading}
-                    onClick={handleUpgrade}
-                  >
-                    {paymentLoading ? (
-                      <span className="loading loading-spinner"></span>
-                    ) : (
-                      "Upgrade"
-                    )}
-                  </button>
+                  {isPrimium ? (
+                    <button
+                      className="btn w-full btn-neutral"
+                      disabled="disabled"
+                    >
+                      You are Primium ⭐
+                    </button>
+                  ) : (
+                    <button
+                      className="btn w-full bg-[#FFD700] text-black! hover:brightness-90"
+                      disabled={paymentLoading}
+                      onClick={handleUpgrade}
+                    >
+                      {paymentLoading ? (
+                        <span className="loading loading-spinner"></span>
+                      ) : (
+                        "Upgrade"
+                      )}
+                    </button>
+                  )}
                 </td>
               </tr>
             </tbody>

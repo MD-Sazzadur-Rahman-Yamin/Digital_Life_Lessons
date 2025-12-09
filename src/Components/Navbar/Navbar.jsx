@@ -4,9 +4,12 @@ import { Link, NavLink } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import { CgProfile } from "react-icons/cg";
 import { toast } from "react-toastify";
+import useIsPremium from "../../Hooks/useIsPremium";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
+    const isPrimium = useIsPremium();
+
 
   const handleLogout = () => {
     logout()
@@ -33,9 +36,19 @@ const Navbar = () => {
       <li>
         <NavLink to="/public-lessons">Public Lessons</NavLink>
       </li>
-      <li>
-        <NavLink to="/upgrade">Upgrade</NavLink>
-      </li>
+      {user && (
+        <>
+          {isPrimium ? (
+            <li>
+              <a>Premium ⭐</a>
+            </li>
+          ) : (
+            <li>
+              <NavLink to="/upgrade">Upgrade</NavLink>
+            </li>
+          )}
+        </>
+      )}
     </>
   );
   return (
