@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import useIsPremium from "../../../Hooks/useIsPremium";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 const UpdateLessonModal = ({ modalRef, modalData }) => {
   const [updateLessonLoading, setUpdateLessonLoading] = useState(false);
@@ -35,12 +37,36 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
     }
   }, [modalData, reset]);
 
+  // frontend will sent title, story, category, emotionalTone, visibility, accessLevel, updatedAt
+  // const closeModal = () => {
+  //   if (modalRef?.current) {
+  //     modalRef.current.close();
+  //   }
+  // };
+  const axiosSecure = useAxiosSecure();
+  const handleUpdateLesson =async (data) => {
+    setUpdateLessonLoading(true);
+    const lessonInfo = {
+      ...data,
+      updatedAt: new Date(),
+    };
 
-  // frontend will sent title, story, category, emotionalTone, visibility, accessLevel,creatorEmail, createdAt, updatedAt
-  console.log(modalData);
-  const handleUpdateLesson = (data) => {
-    console.log(data);
+    console.log(lessonInfo);
+    axiosSecure
+      .patch(`/lessons/${modalData?._id}`, lessonInfo)
+      .then(() => {
+        setUpdateLessonLoading(false);
+        reset();
+        toast.success("Lesson updated successfully");
+      })
+      .catch((err) => {
+        setUpdateLessonLoading(false);
+
+        console.error(err);
+        toast.error("Failed to update lesson. Try again.");
+      });
   };
+
   return (
     <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
       <div className="modal-box">
@@ -107,7 +133,6 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
               {/* Visibility */}
               <label className="label w-full">Visibility</label>
               <select
-                defaultValue="Visibility"
                 className="select w-full"
                 {...register("visibility", { required: true })}
               >
@@ -121,7 +146,6 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
               {/* Access Level */}
               <label className="label w-full">Access Level</label>
               <select
-                defaultValue="Access Level"
                 className="select w-full"
                 {...register("accessLevel", { required: true })}
               >
