@@ -38,13 +38,14 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
   }, [modalData, reset]);
 
   // frontend will sent title, story, category, emotionalTone, visibility, accessLevel, updatedAt
+  
   // const closeModal = () => {
   //   if (modalRef?.current) {
   //     modalRef.current.close();
   //   }
   // };
   const axiosSecure = useAxiosSecure();
-  const handleUpdateLesson =async (data) => {
+  const handleUpdateLesson = async (data) => {
     setUpdateLessonLoading(true);
     const lessonInfo = {
       ...data,
@@ -61,7 +62,8 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
       })
       .catch((err) => {
         setUpdateLessonLoading(false);
-
+        // modalRef.current.close();
+        // closeModal();
         console.error(err);
         toast.error("Failed to update lesson. Try again.");
       });

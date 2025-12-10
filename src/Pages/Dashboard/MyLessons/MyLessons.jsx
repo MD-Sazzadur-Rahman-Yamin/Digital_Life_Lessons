@@ -5,12 +5,14 @@ import useAuth from "../../../Hooks/useAuth";
 import { Link } from "react-router";
 import SeeStatsModal from "../../../Components/Modals/SeeStatsModal/SeeStatsModal";
 import UpdateLessonModal from "../../../Components/Modals/UpdateLessonModal/UpdateLessonModal";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const MyLessons = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: myAllLessons = [] } = useQuery({
+  const { data: myAllLessons = [], refetch } = useQuery({
     queryKey: ["my-lessons", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -33,6 +35,31 @@ const MyLessons = () => {
   const openUpdateLessonModal = (lesson) => {
     setUpdateLessonModalData(lesson);
     updateLessonModalRef.current?.showModal();
+  };
+
+  const deleteLesson = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .delete(`/lessons/${id}`)
+          .then(() => {
+            toast.success("Lesson deleted successfully");
+            refetch();
+          })
+          .catch((err) => {
+            console.error(err);
+            toast.error("Failed to delete lesson. Try again.");
+          });
+      }
+    });
   };
 
   return (
@@ -67,12 +94,18 @@ const MyLessons = () => {
                     See Stats
                   </button>
                 </td>
-                <td className="text-center">
+                <td className="flex justify-center items-center gap-2">
                   <button
                     className="btn btn-primary"
                     onClick={() => openUpdateLessonModal(lesson)}
                   >
                     Update
+                  </button>
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => deleteLesson(lesson._id)}
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>
