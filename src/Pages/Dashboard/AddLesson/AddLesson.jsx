@@ -56,8 +56,8 @@ const AddLesson = () => {
   };
 
   return (
-    <div className="container bg-base-300 p-10! rounded-2xl min-h-screen">
-      <h2 className="font-bold! text-center">Add Lestion</h2>
+    <div className="container mx-auto bg-base-300 p-10! rounded-2xl min-h-screen">
+      <h2 className="text-center">Add Lestion</h2>
       <form onSubmit={handleSubmit(handleAddLesson)}>
         <fieldset className="fieldset">
           {/* Title */}

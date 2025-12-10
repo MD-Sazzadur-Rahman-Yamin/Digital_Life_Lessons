@@ -11,6 +11,7 @@ import UpgradeFailed from "../Pages/Upgrade/UpgradeFailed";
 import Dashboard from "../Layouts/DashboardLayout/DashboardLayout";
 import AddLesson from "../Pages/Dashboard/AddLesson/AddLesson";
 import MyLessons from "../Pages/Dashboard/MyLessons/MyLessons";
+import Profile from "../Pages/Dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -73,6 +74,14 @@ const router = createBrowserRouter([
         path: "my-lessons",
         element: <MyLessons></MyLessons>,
       },
+      {
+        path: "profile",
+        element: <Profile></Profile>,
+      },
+      {
+        path:"profile/update",
+        
+      }
     ],
   },
 ]);

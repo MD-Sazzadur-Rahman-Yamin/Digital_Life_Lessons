@@ -5,7 +5,7 @@ import axios from "axios";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 
-const UpdateLessonModal = ({ modalRef, modalData }) => {
+const UpdateLessonModal = ({ modalRef, modalData, refetch }) => {
   const [updateLessonLoading, setUpdateLessonLoading] = useState(false);
 
   const isPremium = useIsPremium();
@@ -38,12 +38,6 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
   }, [modalData, reset]);
 
   // frontend will sent title, story, category, emotionalTone, visibility, accessLevel, updatedAt
-  
-  // const closeModal = () => {
-  //   if (modalRef?.current) {
-  //     modalRef.current.close();
-  //   }
-  // };
   const axiosSecure = useAxiosSecure();
   const handleUpdateLesson = async (data) => {
     setUpdateLessonLoading(true);
@@ -58,19 +52,23 @@ const UpdateLessonModal = ({ modalRef, modalData }) => {
       .then(() => {
         setUpdateLessonLoading(false);
         reset();
+        document.getElementById("UpdateLessonModal").close();
+        refetch();
         toast.success("Lesson updated successfully");
       })
       .catch((err) => {
         setUpdateLessonLoading(false);
-        // modalRef.current.close();
-        // closeModal();
         console.error(err);
         toast.error("Failed to update lesson. Try again.");
       });
   };
 
   return (
-    <dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
+    <dialog
+      ref={modalRef}
+      id="UpdateLessonModal"
+      className="modal modal-bottom sm:modal-middle"
+    >
       <div className="modal-box">
         <h2 className="text-center">Update Lesson</h2>
         {/* <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl"> */}

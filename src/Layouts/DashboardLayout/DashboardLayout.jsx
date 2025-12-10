@@ -5,6 +5,7 @@ import { RiArrowGoBackFill } from "react-icons/ri";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdOutlineAddBox } from "react-icons/md";
 import { FiBook } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
 
 const DashboardLayout = () => {
   return (
@@ -99,6 +100,17 @@ const DashboardLayout = () => {
                 {/* icon */}
                 <FiBook />
                 <span className="is-drawer-close:hidden">My Lessons</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="Profile"
+                to="/dashboard/profile"
+              >
+                {/* icon */}
+                <CgProfile />
+                <span className="is-drawer-close:hidden">Profile</span>
               </NavLink>
             </li>
           </ul>

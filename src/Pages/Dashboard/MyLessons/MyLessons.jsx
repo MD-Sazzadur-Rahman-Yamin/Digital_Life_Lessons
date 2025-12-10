@@ -63,7 +63,7 @@ const MyLessons = () => {
   };
 
   return (
-    <div className="container bg-base-300 p-10 rounded-2xl min-h-screen">
+    <div className="container mx-auto bg-base-300 p-10 rounded-2xl min-h-screen">
       <h2 className="font-bold text-center mb-4">My Lessons</h2>
       <div className="overflow-x-auto rounded-box border border-base-content bg-base-300">
         <table className="table">
@@ -119,6 +119,7 @@ const MyLessons = () => {
         modalData={seeStatsModalData}
       />
       <UpdateLessonModal
+        refetch={refetch}
         modalRef={updateLessonModalRef}
         modalData={updateLessonModalData}
       />
