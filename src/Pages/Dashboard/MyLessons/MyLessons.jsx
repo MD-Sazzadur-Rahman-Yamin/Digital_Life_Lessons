@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import useAuth from "../../../Hooks/useAuth";
+import { Link } from "react-router";
+import SeeStatsModal from "../../../Components/Modals/SeeStatsModal/SeeStatsModal";
 
 const MyLessons = () => {
   const { user } = useAuth();
@@ -15,6 +17,14 @@ const MyLessons = () => {
     },
   });
   console.log(myAllLessons);
+
+  //see states modals
+  const seeStatsModalRef = useRef();
+  const [seeStatsModalData, setSeeStatsModalData] = useState({});
+  const OpenSeeStatsModal = (lesson) => {
+    setSeeStatsModalData(lesson);
+    seeStatsModalRef.current.showModal();
+  };
   return (
     <div className="container bg-base-300 p-10! rounded-2xl min-h-screen">
       <h2 className="font-bold! text-center mb-4">My Lessons</h2>
@@ -23,24 +33,41 @@ const MyLessons = () => {
           {/* head */}
           <thead>
             <tr>
-              <th>#</th>
-              <th>Title</th>
-              <th>Job</th>
-              <th>Favorite Color</th>
+              <th className="text-center">#</th>
+              <th className="text-center">Title</th>
+              <th className="text-center">Lesson details</th>
+              <th className="text-center">Stats</th>
+              <th className="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
             {myAllLessons.map((lesson, index) => (
               <tr key={lesson._id || index}>
-                <th>{index + 1}</th>
-                <td>{lesson.title}</td>
-                <td>{lesson.role || "Quality Control Specialist"}</td>
-                <td>{lesson.color || "Blue"}</td>
+                <th className="text-center">{index + 1}</th>
+                <td className="text-center">{lesson.title}</td>
+                <td className="text-center">
+                  <Link to={`/lesson/Details/${lesson._id}`}>
+                    <button className="btn btn-primary">Lesson details</button>
+                  </Link>
+                </td>
+                <td className="text-center">
+                  <button
+                    className="btn btn-primary"
+                    onClick={() => OpenSeeStatsModal(lesson)}
+                  >
+                    See Stats
+                  </button>
+                </td>
+                <td className="text-center">{lesson.color || "Blue"}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <SeeStatsModal
+        modalRef={seeStatsModalRef}
+        modalData={seeStatsModalData}
+      ></SeeStatsModal>
     </div>
   );
 };
