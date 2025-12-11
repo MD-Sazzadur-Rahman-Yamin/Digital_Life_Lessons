@@ -19,10 +19,9 @@ const Profile = () => {
     },
   });
 
-  const updateProfileModalRef = useRef()
+  const updateProfileModalRef = useRef();
   const handleUpdateProfile = () => {
     updateProfileModalRef?.current.showModal();
-    console.log("clicked");
   };
 
   return (

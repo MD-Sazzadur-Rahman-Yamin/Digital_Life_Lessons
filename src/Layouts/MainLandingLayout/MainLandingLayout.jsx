@@ -6,7 +6,7 @@ const MainLandingLayout = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="container min-h-screen">
+      <div className="container mx-auto min-h-screen">
         <Outlet></Outlet>
       </div>
       <Footer></Footer>

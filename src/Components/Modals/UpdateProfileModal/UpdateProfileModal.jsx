@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useGetDbUserData from "../../../Hooks/useGetDbUserData";
+import { toast } from "react-toastify";
 
 const UpdateProfileModal = ({ modalRef }) => {
-  const { user } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    // formState: { errors },
-  } = useForm();
+  const [updateProfileLoading, setUpdateProfileLoading] = useState(false);
+  const { user, updateUserProfile } = useAuth();
+  const { db_user, db_user_refetch } = useGetDbUserData();
+  const axiosSecure = useAxiosSecure();
+  const { register, handleSubmit, reset } = useForm();
 
   useEffect(() => {
     if (user) {
@@ -19,8 +21,57 @@ const UpdateProfileModal = ({ modalRef }) => {
     }
   }, [user, reset]);
 
-  const handleUpdateProfile = () => {
-    console.log(UpdateProfileModal);
+  const handleUpdateProfile = async (data) => {
+    try {
+      setUpdateProfileLoading(true);
+
+      const DbUser = await db_user_refetch();
+      const userId = DbUser?.data?._id;
+
+      const updatedData = {};
+
+      // name
+      if (data.name) {
+        updatedData.displayName = data.name;
+      }
+
+      // photo upload
+      if (data.profilePhoto?.length > 0) {
+        const formData = new FormData();
+        formData.append("image", data.profilePhoto[0]);
+
+        const image_api_url = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_image_host_key
+        }`;
+
+        // MUST await this
+        const imgRes = await axios.post(image_api_url, formData);
+
+        updatedData.photoURL = imgRes.data.data.url;
+      }
+
+      if (Object.keys(updatedData).length === 0) {
+        toast("Nothing to update.");
+        setUpdateProfileLoading(false);
+        return;
+      }
+
+      // update firebase profile
+      await updateUserProfile(updatedData);
+      console.log(db_user?._id);
+      // update database
+      // const userId = db_user?._id;
+      await axiosSecure.patch(`/users/update/${userId}`, updatedData);
+
+      db_user_refetch();
+      setUpdateProfileLoading(false);
+      document.getElementById("updateProfileModal").close();
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      setUpdateProfileLoading(false);
+      toast.error("Failed to update profile.");
+    }
   };
 
   return (
@@ -50,9 +101,6 @@ const UpdateProfileModal = ({ modalRef }) => {
                 placeholder="Name"
                 {...register("name")}
               />
-              {/* {errors.name?.type === "required" && (
-                <p className="text-red-500 text-sm">Lesson Title is required</p>
-              )} */}
 
               {/* profile photo field */}
               <label className="label">Profile Photo</label>
@@ -61,12 +109,17 @@ const UpdateProfileModal = ({ modalRef }) => {
                 className="file-input"
                 {...register("profilePhoto")}
               />
-              {/* {errors.profilePhoto?.type === "required" && (
-                <p className="text-red-500 text-sm">
-                  Profile photo is required
-                </p>
-              )} */}
-              <button className="btn btn-neutral mt-4">Login</button>
+
+              <button
+                className="btn btn-primary mt-4"
+                disabled={updateProfileLoading}
+              >
+                {updateProfileLoading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Update Profile"
+                )}
+              </button>
             </fieldset>
           </form>
         </div>
