@@ -137,8 +137,8 @@ const AddLesson = () => {
             {...register("accessLevel", { required: true })}
           >
             <option disabled={true}>Access Level</option>
-            <option value="Public">Free</option>
-            <option disabled={!isPremium} value="Private">
+            <option value="Free">Free</option>
+            <option disabled={!isPremium} value="Premium">
               {isPremium
                 ? "Premium ⭐"
                 : "Upgrade to Premium to create paid lessons"}

@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const UpdateProfileModal = ({ modalRef }) => {
   const [updateProfileLoading, setUpdateProfileLoading] = useState(false);
   const { user, updateUserProfile } = useAuth();
-  const { db_user, db_user_refetch } = useGetDbUserData();
+  const { db_user_refetch } = useGetDbUserData();
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();
 
@@ -24,7 +24,6 @@ const UpdateProfileModal = ({ modalRef }) => {
   const handleUpdateProfile = async (data) => {
     try {
       setUpdateProfileLoading(true);
-
       const DbUser = await db_user_refetch();
       const userId = DbUser?.data?._id;
 
@@ -58,9 +57,6 @@ const UpdateProfileModal = ({ modalRef }) => {
 
       // update firebase profile
       await updateUserProfile(updatedData);
-      console.log(db_user?._id);
-      // update database
-      // const userId = db_user?._id;
       await axiosSecure.patch(`/users/update/${userId}`, updatedData);
 
       db_user_refetch();

@@ -12,6 +12,7 @@ import Dashboard from "../Layouts/DashboardLayout/DashboardLayout";
 import AddLesson from "../Pages/Dashboard/AddLesson/AddLesson";
 import MyLessons from "../Pages/Dashboard/MyLessons/MyLessons";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import PublicLessons from "../Pages/PublicLessons/PublicLessons";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
           </PrivateRourte>
         ),
       },
+      {
+        path: "public-lessons",
+        element: <PublicLessons></PublicLessons>,
+      },
     ],
   },
   {
@@ -79,9 +84,8 @@ const router = createBrowserRouter([
         element: <Profile></Profile>,
       },
       {
-        path:"profile/update",
-        
-      }
+        path: "profile/update",
+      },
     ],
   },
 ]);
