@@ -9,10 +9,10 @@ const useGetDbUserData = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { data: db_user, isLoading: db_user_Loading,refetch:db_user_refetch } = useQuery({
-    queryKey: ["isPremium", user?.email],
-    enabled: !!user?.email,
+    queryKey: ["isPremium", user?.uid],
+    enabled: !!user?.uid,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users/me/${user.email}`);
+      const res = await axiosSecure.get(`/users/me/${user.uid}`);
       return res.data;
     },
   });

@@ -11,7 +11,7 @@ const LessonsCard = ({ lesson }) => {
   const { data: creatorData = {} } = useQuery({
     queryKey: ["LessonsCard", lesson.creatorEmail],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/user/${lesson.creatorEmail}`);
+      const res = await axiosSecure.get(`/user/${lesson.creatorUid}`);
       return res.data;
     },
   });

@@ -7,10 +7,10 @@ const useIsPremium = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const { data: isPremium = false, isLoading: isPremiumLoading } = useQuery({
-    queryKey: ["isPremium", user?.email],
-    enabled: !!user?.email,
+    queryKey: ["isPremium", user?.uid],
+    enabled: !!user?.uid,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/users/me/${user.email}`);
+      const res = await axiosSecure.get(`/users/me/${user.uid}`);
       return res.data?.isPremium;
     },
   });
