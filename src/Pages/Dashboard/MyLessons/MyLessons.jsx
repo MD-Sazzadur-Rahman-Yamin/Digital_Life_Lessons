@@ -1,25 +1,16 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import useAuth from "../../../Hooks/useAuth";
 import { Link } from "react-router";
 import SeeStatsModal from "../../../Components/Modals/SeeStatsModal/SeeStatsModal";
 import UpdateLessonModal from "../../../Components/Modals/UpdateLessonModal/UpdateLessonModal";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import useFetchMyLessons from "../../../Hooks/useFetchMyLessons";
 
 const MyLessons = () => {
-  const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const { data: myAllLessons = [], refetch } = useQuery({
-    queryKey: ["my-lessons", user?.email],
-    enabled: !!user?.email,
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/lessons/my-lessons/${user.email}`);
-      return res.data;
-    },
-  });
+  const { myAllLessons, refetchMyLessons } = useFetchMyLessons();
 
   // Stats modal
   const seeStatsModalRef = useRef();
@@ -52,7 +43,7 @@ const MyLessons = () => {
           .delete(`/lessons/${id}`)
           .then(() => {
             toast.success("Lesson deleted successfully");
-            refetch();
+            refetchMyLessons();
           })
           .catch((err) => {
             console.error(err);
@@ -119,7 +110,7 @@ const MyLessons = () => {
         modalData={seeStatsModalData}
       />
       <UpdateLessonModal
-        refetch={refetch}
+        refetch={refetchMyLessons}
         modalRef={updateLessonModalRef}
         modalData={updateLessonModalData}
       />

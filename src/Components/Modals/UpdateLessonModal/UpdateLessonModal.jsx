@@ -42,7 +42,12 @@ const UpdateLessonModal = ({ modalRef, modalData, refetch }) => {
   const handleUpdateLesson = async (data) => {
     setUpdateLessonLoading(true);
     const lessonInfo = {
-      ...data,
+      title: data.title,
+      story: data.story,
+      category: data / category,
+      emotionalTone: data.emotionalTone,
+      visibility: data.visibility,
+      accessLevel: data.accessLevel,
       updatedAt: new Date(),
     };
 

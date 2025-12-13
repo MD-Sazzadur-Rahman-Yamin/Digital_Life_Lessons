@@ -11,7 +11,7 @@ const useIsPremium = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/me/${user.email}`);
-      return res.data.isPremium;
+      return res.data?.isPremium;
     },
   });
   return { isPremium, isPremiumLoading };

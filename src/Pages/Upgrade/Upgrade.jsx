@@ -8,19 +8,18 @@ const Upgrade = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const isPrimium = useIsPremium();
+  const { isPremium } = useIsPremium();
 
   const handleUpgrade = async () => {
     setPaymentLoading(true);
     const paymentInfo = {
       customer_email: user.email,
-      metadata: { customer_name: user.displayName },
+      metadata: { customer_name: user.displayName, firebaseUid: user.uid },
     };
     const res = await axiosSecure.post(
       "/payments/create-checkout-session/digital-life-lessons-premium",
       paymentInfo
     );
-    console.log(res.data);
     setPaymentLoading(false);
     window.location.href = res.data.url;
   };
@@ -121,7 +120,7 @@ const Upgrade = () => {
               </tr>
               <tr>
                 <td className="text-center" colSpan="3">
-                  {isPrimium ? (
+                  {isPremium ? (
                     <button
                       className="btn w-full btn-neutral"
                       disabled="disabled"

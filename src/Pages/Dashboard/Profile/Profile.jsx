@@ -1,23 +1,14 @@
 import React, { useRef } from "react";
 import useAuth from "../../../Hooks/useAuth";
 import useIsPremium from "../../../Hooks/useIsPremium";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import UpdateProfileModal from "../../../Components/Modals/UpdateProfileModal/UpdateProfileModal";
+import useFetchMyLessons from "../../../Hooks/useFetchMyLessons";
 
 const Profile = () => {
   const { user } = useAuth();
   const isPremium = useIsPremium();
-  const axiosSecure = useAxiosSecure();
 
-  const { data: myAllLessons = [] } = useQuery({
-    queryKey: ["my-lessons", user?.email],
-    enabled: !!user?.email,
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/lessons/my-lessons/${user.email}`);
-      return res.data;
-    },
-  });
+  const { myAllLessons } = useFetchMyLessons();
 
   const updateProfileModalRef = useRef();
   const handleUpdateProfile = () => {

@@ -3,6 +3,7 @@ import { format, formatDistanceToNow } from "date-fns";
 import React from "react";
 import { Link } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import useIsPremium from "../../../Hooks/useIsPremium";
 
 const LessonsCard = ({ lesson }) => {
   const axiosSecure = useAxiosSecure();
@@ -14,7 +15,7 @@ const LessonsCard = ({ lesson }) => {
       return res.data;
     },
   });
-  console.log(creatorData);
+  const isPremium = useIsPremium()
   return (
     <div className="card bg-base-100 shadow-sm">
       <div className="card-body">
@@ -56,9 +57,15 @@ const LessonsCard = ({ lesson }) => {
           <p>{creatorData.displayName}</p>
         </div>
         <div className="card-actions">
-          <Link className="w-full" to={`/lesson/Details/${lesson._id}`}>
-            <button className="btn btn-primary w-full">Buy Now</button>
-          </Link>
+          {lesson.accessLevel === "Premium" && !isPremium ? (
+            <Link className="w-full" to={`/lesson/Details/${lesson._id}`}>
+              <button className="btn btn-primary w-full">Upgrade</button>
+            </Link>
+          ) : (
+            <Link className="w-full" to={`/lesson/Details/${lesson._id}`}>
+              <button className="btn btn-primary w-full">Buy Now</button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

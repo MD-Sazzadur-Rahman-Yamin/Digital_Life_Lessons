@@ -3,6 +3,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+// import axios from "axios";
 
 const SocialLogin = () => {
   const axiosSecure = useAxiosSecure();
@@ -10,18 +11,54 @@ const SocialLogin = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleSignInWithGoogle = () => {
+  // const handleSignInWithGoogle = () => {
+  //   signInWithGoogle()
+  //     .then(async (result) => {
+  //       const user = result.user;
+
+  //       // Fix: get token directly from Firebase user
+  //       const idToken = await user.getIdToken();
+
+  //       const userInfo = {
+  //         name: user.displayName,
+  //         email: user.email,
+  //         photoURL: user.photoURL,
+  //       };
+
+  //       // FIX: use normal axios (NOT axiosSecure)
+  //       axios
+  //         .post(`${import.meta.env.VITE_API_URL}/users/sync`, userInfo, {
+  //           headers: {
+  //             Authorization: `Bearer ${idToken}`,
+  //           },
+  //           withCredentials: true,
+  //         })
+  //         .then(() => {
+  //           toast.success("Successfully signed in!");
+  //           navigate(location?.state || "/");
+  //         })
+  //         .catch((err) => {
+  //           console.error(err);
+  //           toast.error("User sync failed");
+  //         });
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       toast.error("Login failed");
+  //     });
+  // };
+
+  const handleSignInWithGoogle = async () => {
     signInWithGoogle()
       .then((result) => {
         const user = result.user;
-
-        // Prepare user info for backend
         const userInfo = {
+          firebaseUid: user.uid,
           name: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
+          createdAt: new Date(),
         };
-
         // Send to backend
         axiosSecure
           .post("/users/sync", userInfo)

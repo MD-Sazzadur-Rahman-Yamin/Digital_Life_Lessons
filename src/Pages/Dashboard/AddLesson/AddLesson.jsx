@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const AddLesson = () => {
   const [addLessonLoading, setaddLessonLoading] = useState(false);
 
-  const isPremium = useIsPremium();
+  const { isPremium } = useIsPremium();
   const [category, setCategory] = useState([]);
   const [emotionalTone, setEmotionalTone] = useState([]);
   useEffect(() => {
@@ -18,7 +18,6 @@ const AddLesson = () => {
       .get("/EmotionalTone.json")
       .then((result) => setEmotionalTone(result.data));
   }, []);
-  // frontend will sent title, story, category, emotionalTone, visibility, accessLevel,creatorEmail, createdAt, updatedAt
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const {
@@ -29,10 +28,11 @@ const AddLesson = () => {
   } = useForm();
 
   const handleAddLesson = (data) => {
+    // frontend will sent title, story, category, emotionalTone, visibility, accessLevel,creatorUid, createdAt, updatedAt
     setaddLessonLoading(true);
     const lessonInfo = {
       ...data,
-      creatorEmail: user.email,
+      creatorUid: user.uid,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

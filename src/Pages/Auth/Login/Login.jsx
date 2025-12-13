@@ -6,7 +6,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { toast } from "react-toastify";
 
 const Login = () => {
-  const [loginLoading,setLoginLoading] = useState(false)
+  const [loginLoading, setLoginLoading] = useState(false);
   const { loginUser } = useAuth();
   const {
     register,
@@ -26,13 +26,15 @@ const Login = () => {
       })
       .catch((err) => {
         console.log(err);
-        setLoginLoading(false``);
+        setLoginLoading(false);
         if (err.code === "auth/user-not-found") {
           toast.error("No account found with this email");
         } else if (err.code === "auth/wrong-password") {
           toast.error("Incorrect password");
         } else if (err.code === "auth/invalid-email") {
           toast.error("Invalid email address");
+        } else if (err.code === "auth/invalid-credential") {
+          toast.error("Either email or password is wrong");
         } else if (err.code === "auth/network-request-failed") {
           toast.error("Network error. Check your internet");
         } else {

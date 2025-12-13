@@ -25,8 +25,7 @@ const Register = () => {
 
     registerUser(data.email, data.password)
       .then((res) => {
-        console.log(res.user);
-
+        const FB_uid = res.user.uid;
         // store the image and get URL
         const formData = new FormData();
         formData.append("image", profileImg);
@@ -46,14 +45,15 @@ const Register = () => {
               photoURL: imageURL,
             };
 
-            //update displeyName and photoURL
             updateUserProfile(userProfile)
               .then(() => {
                 //data for save mongodb
                 const userInfo = {
+                  firebaseUid: FB_uid,
                   name: data.name,
                   email: data.email,
                   photoURL: imageURL,
+                  createdAt: new Date(),
                 };
                 //send data to mengodb
                 axiosSecure

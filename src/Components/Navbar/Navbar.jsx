@@ -8,7 +8,7 @@ import useIsPremium from "../../Hooks/useIsPremium";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const isPrimium = useIsPremium();
+  const { isPremium } = useIsPremium();
 
   const handleLogout = () => {
     logout()
@@ -37,7 +37,7 @@ const Navbar = () => {
       </li>
       {user && (
         <>
-          {isPrimium ? (
+          {isPremium ? (
             <li>
               <a>Premium ⭐</a>
             </li>
