@@ -20,7 +20,23 @@
         "options": "Mistakes Learned"
     },
     {
-        "id":6,
+        "id": 6,
         "options": "Self Acceptance"
+    },
+    {
+        "id": 7,
+        "options": "Life Lessons"
+    },
+    {
+        "id": 8,
+        "options": "Emotional Intelligence"
+    },
+    {
+        "id": 9,
+        "options": "Self-Development"
+    },
+    {
+        "id": 10,
+        "options": "Productivity"
     }
 ]

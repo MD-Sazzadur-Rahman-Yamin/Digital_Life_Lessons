@@ -14,5 +14,25 @@
     {
         "id": 4,
         "options": "Gratitude"
+    },
+    {
+        "id": 5,
+        "options": "Encouraging"
+    },
+    {
+        "id": 6,
+        "options": "Thoughtful"
+    },
+    {
+        "id": 7,
+        "options": "Calm"
+    },
+    {
+        "id":8,
+        "options":"Honest"
+    },
+    {
+        "id":9,
+        "options":"Reassuring"
     }
 ]

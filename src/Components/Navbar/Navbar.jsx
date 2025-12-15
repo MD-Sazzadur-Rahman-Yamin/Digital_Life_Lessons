@@ -111,7 +111,7 @@ const Navbar = () => {
                   {user.displayName ? user.displayName : "Name not found"}
                 </li>
                 <li>
-                  <Link to=" /dashboard/profile">Profile</Link>
+                  <Link to="/dashboard/profile">Profile</Link>
                 </li>
                 <li>
                   <Link to="/dashboard">Dashboard</Link>

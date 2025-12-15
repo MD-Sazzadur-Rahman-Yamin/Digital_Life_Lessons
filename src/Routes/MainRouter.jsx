@@ -5,7 +5,7 @@ import Register from "../Pages/Auth/Register/Register";
 import Login from "../Pages/Auth/Login/Login";
 import Error from "../Components/Error/Error";
 import Upgrade from "../Pages/Upgrade/Upgrade";
-import PrivateRourte from "../Provider/PrivateRourte";
+import PrivateRoute from "../Provider/PrivateRoute";
 import UpgradeSuccessful from "../Pages/Upgrade/UpgradeSuccessful";
 import UpgradeFailed from "../Pages/Upgrade/UpgradeFailed";
 import Dashboard from "../Layouts/DashboardLayout/DashboardLayout";
@@ -13,6 +13,8 @@ import AddLesson from "../Pages/Dashboard/AddLesson/AddLesson";
 import MyLessons from "../Pages/Dashboard/MyLessons/MyLessons";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import PublicLessons from "../Pages/PublicLessons/PublicLessons";
+import LessonDetails from "../Pages/LessonDetails/LessonDetails";
+import PremiumOnlyRouter from "../Provider/PremiumOnlyRouter";
 
 const router = createBrowserRouter([
   {
@@ -35,39 +37,49 @@ const router = createBrowserRouter([
       {
         path: "upgrade",
         element: (
-          <PrivateRourte>
+          <PrivateRoute>
             <Upgrade></Upgrade>
-          </PrivateRourte>
+          </PrivateRoute>
         ),
       },
       {
         path: "upgrade-successful",
         element: (
-          <PrivateRourte>
+          <PrivateRoute>
             <UpgradeSuccessful></UpgradeSuccessful>
-          </PrivateRourte>
+          </PrivateRoute>
         ),
       },
       {
         path: "upgrade-failed",
         element: (
-          <PrivateRourte>
+          <PrivateRoute>
             <UpgradeFailed></UpgradeFailed>
-          </PrivateRourte>
+          </PrivateRoute>
         ),
       },
       {
         path: "public-lessons",
         element: <PublicLessons></PublicLessons>,
       },
+      {
+        path: "/lesson/Details/:id",
+        element: (
+          <PrivateRoute>
+            <PremiumOnlyRouter>
+              <LessonDetails></LessonDetails>
+            </PremiumOnlyRouter>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
     path: "dashboard",
     element: (
-      <PrivateRourte>
+      <PrivateRoute>
         <Dashboard></Dashboard>
-      </PrivateRourte>
+      </PrivateRoute>
     ),
     errorElement: <Error></Error>,
     children: [

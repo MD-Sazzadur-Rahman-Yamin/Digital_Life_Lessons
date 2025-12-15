@@ -7,27 +7,34 @@ import useIsPremium from "../../../Hooks/useIsPremium";
 
 const LessonsCard = ({ lesson }) => {
   const axiosSecure = useAxiosSecure();
-  console.log(lesson);
+
   const { data: creatorData = {} } = useQuery({
-    queryKey: ["LessonsCard", lesson.creatorEmail],
+    queryKey: ["LessonsCard", lesson.creatorUid],
     queryFn: async () => {
       const res = await axiosSecure.get(`/user/${lesson.creatorUid}`);
       return res.data;
     },
   });
-  const isPremium = useIsPremium()
+
+  const { isPremium } = useIsPremium();
   return (
     <div className="card bg-base-100 shadow-sm">
       <div className="card-body">
         <h2 className="card-title">{lesson.title || "no title"}</h2>
         <p>
           {lesson.story.split(" ").slice(0, 25).join(" ")}
-          <Link
-            to={`/lesson/Details/${lesson._id}`}
-            className="ml-2 text-primary"
-          >
-            See more
-          </Link>
+          {lesson.accessLevel === "Premium" && !isPremium ? (
+            <Link to={`/upgrade`} className="ml-2 text-[#FFD700]">
+              Upgrade to view
+            </Link>
+          ) : (
+            <Link
+              to={`/lesson/Details/${lesson._id}`}
+              className="ml-2 text-primary"
+            >
+              See more
+            </Link>
+          )}
         </p>
         <p>
           <span className="font-bold! text-accent">Category:</span>{" "}
@@ -39,7 +46,7 @@ const LessonsCard = ({ lesson }) => {
         </p>
         <p>
           <span className="font-bold! text-accent">Created Date :</span>{" "}
-          {format(lesson.createdAt, "dd-mm-yyyy")}{" "}
+          {format(lesson.createdAt, "dd-MM-yyyy")}{" "}
           <span className="badge badge-outline badge-primary">
             {formatDistanceToNow(lesson.createdAt, { addSuffix: true })}
           </span>
@@ -48,22 +55,21 @@ const LessonsCard = ({ lesson }) => {
         <div className="flex items-center gap-4">
           <div className="avatar">
             <div className="w-8 rounded-full">
-              <img
-                src={creatorData.photoURL}
-                alt="Tailwind-CSS-Avatar-component"
-              />
+              <img src={creatorData.photoURL} alt="Profile" />
             </div>
           </div>
-          <p>{creatorData.displayName}</p>
+          <p>{creatorData.name}</p>
         </div>
         <div className="card-actions">
           {lesson.accessLevel === "Premium" && !isPremium ? (
-            <Link className="w-full" to={`/lesson/Details/${lesson._id}`}>
-              <button className="btn btn-primary w-full">Upgrade</button>
+            <Link className="w-full" to={`/upgrade`}>
+              <button className="btn w-full bg-[#FFD700] text-black! hover:brightness-90">
+                Premium Lesson - Upgrade to view
+              </button>
             </Link>
           ) : (
             <Link className="w-full" to={`/lesson/Details/${lesson._id}`}>
-              <button className="btn btn-primary w-full">Buy Now</button>
+              <button className="btn btn-primary w-full">See Details</button>
             </Link>
           )}
         </div>
