@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { format } from "date-fns";
 import Spinner from "../../Components/Spinner/Spinner";
 import useFetchLessonDetails from "../../Hooks/useFetchLessonDetails";
@@ -15,6 +15,7 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from "react-share";
+import ReportModal from "../../Components/Modals/ReportModal/ReportModal";
 
 const LessonDetails = () => {
   const { lesson_detail, lesson_Id } = useFetchLessonDetails();
@@ -33,7 +34,14 @@ const LessonDetails = () => {
   }/lesson/Details/${lesson_Id}`;
 
   // console.log(creatorData);
-  console.log(lesson_detail);
+  // console.log(lesson_detail);
+
+  const ReportModalRef = useRef();
+  const [reportModalData, setReportModalData] = useState(null);
+  const handleOpenReportModal = (lesson_detail) => {
+    setReportModalData(lesson_detail);
+    ReportModalRef.current?.showModal();
+  };
 
   return (
     <div className="section">
@@ -80,7 +88,10 @@ const LessonDetails = () => {
             <LuView />
             {views} Views
           </span>
-          <span className="badge badge-outline badge-primary">
+          <span
+            className="badge badge-outline badge-primary cursor-pointer"
+            onClick={() => handleOpenReportModal(lesson_detail)}
+          >
             <TbFlag3 />
             Report
           </span>
@@ -115,6 +126,10 @@ const LessonDetails = () => {
           </div>
         </div>
       </div>
+      <ReportModal
+        modalRef={ReportModalRef}
+        modalData={reportModalData}
+      ></ReportModal>
     </div>
   );
 };

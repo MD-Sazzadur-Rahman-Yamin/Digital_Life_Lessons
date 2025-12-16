@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "options": "Inappropriate Content"
+    },
+    {
+        "id": 2,
+        "options": "Hate Speech or Harassment"
+    },
+    {
+        "id": 3,
+        "options": "Misleading or False Information"
+    },
+    {
+        "id": 4,
+        "options": "Spam or Promotional Content"
+    },
+    {
+        "id": 5,
+        "options": "Sensitive or Disturbing Content"
+    },
+    {
+        "id": 6,
+        "options": "Other"
+    }
+]
