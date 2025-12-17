@@ -19,6 +19,7 @@ import ReportModal from "../../Components/Modals/ReportModal/ReportModal";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import LessonsCard from "../../Components/Cards/LessonsCard/LessonsCard";
 
 const LessonDetails = () => {
   const { lesson_detail, lesson_Id } = useFetchLessonDetails();
@@ -85,7 +86,20 @@ const LessonDetails = () => {
       return res.data;
     },
   });
-  console.log(comments);
+
+  const {
+    data: recommendedLessons = [],
+    isLoading: isRecommendedLessonLoading,
+  } = useQuery({
+    queryKey: ["recommended-lessons", lesson_detail._id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(
+        `/lessons/recommended/${lesson_detail._id}`
+      );
+      return res.data;
+    },
+  });
+  console.log(recommendedLessons);
 
   return (
     <div className="section">
@@ -219,6 +233,20 @@ const LessonDetails = () => {
               View all lessons by this author
             </button>
           </div>
+        </div>
+      </div>
+      <div className="section">
+        <h2 className="text-center mb-1">Recommended Lessons</h2>
+        <div>
+          {isRecommendedLessonLoading ? (
+            <Spinner></Spinner>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {recommendedLessons.map((lesson) => (
+                <LessonsCard key={lesson._id} lesson={lesson}></LessonsCard>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       <ReportModal
