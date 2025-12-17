@@ -1,10 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { format, formatDistanceToNow } from "date-fns";
 import Spinner from "../../Components/Spinner/Spinner";
 import useFetchLessonDetails from "../../Hooks/useFetchLessonDetails";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
-import { IoBookmarkOutline, IoHeartOutline } from "react-icons/io5";
+import {
+  IoBookmark,
+  IoBookmarkOutline,
+  IoHeartOutline,
+  IoHeartSharp,
+} from "react-icons/io5";
 import { LuView } from "react-icons/lu";
 import { TbFlag3 } from "react-icons/tb";
 import {
@@ -46,6 +51,63 @@ const LessonDetails = () => {
     import.meta.env.VITE_API_URL
   }/lesson/Details/${lesson_Id}`;
 
+  // * likes
+  const [isLiked, setIsLiked] = useState(
+    lesson_detail?.likes?.includes(user?.uid)
+  );
+  const [likesCount, setLikesCount] = useState(lesson_detail?.likesCount || 0);
+  const handleLike = async () => {
+    const prev = isLiked;
+    setIsLiked(!prev);
+    setLikesCount(prev ? likesCount - 1 : likesCount + 1);
+
+    try {
+      await axiosSecure.patch(`/lessons/${lesson_detail._id}/like`);
+    } catch {
+      setIsLiked(prev);
+      setLikesCount(prev ? likesCount + 1 : likesCount - 1);
+      toast.error("Failed to update like");
+    }
+  };
+
+  //
+  const [isFavorite, setIsFavorite] = useState(
+    lesson_detail?.isFavorite || false
+  );
+  const [favoritesCount, setFavoritesCount] = useState(
+    lesson_detail?.favoritesCount || 0
+  );
+
+  useEffect(() => {
+    const checkFavorite = async () => {
+      try {
+        const res = await axiosSecure.get(
+          `/favorites/check?lessonId=${lesson_detail._id}`
+        );
+        setIsFavorite(res.data.isFavorite);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    if (lesson_detail?._id) checkFavorite();
+  }, [lesson_detail, axiosSecure]);
+
+  const handleFavorite = async () => {
+    const prev = isFavorite;
+    setIsFavorite(!prev);
+    setFavoritesCount(prev ? favoritesCount - 1 : favoritesCount + 1);
+
+    try {
+      await axiosSecure.patch(`/lessons/${lesson_detail._id}/favorite`);
+    } catch {
+      setIsFavorite(prev);
+      setFavoritesCount(prev ? favoritesCount + 1 : favoritesCount - 1);
+      toast.error("Failed to update favorite");
+    }
+  };
+
+  //* report
   const ReportModalRef = useRef();
   const [reportModalData, setReportModalData] = useState(null);
   const handleOpenReportModal = (lesson_detail) => {
@@ -53,6 +115,7 @@ const LessonDetails = () => {
     ReportModalRef.current?.showModal();
   };
 
+  //* comments
   const [addCommentLoading, setAddCommentLoading] = useState(false);
   const handleComment = (data) => {
     setAddCommentLoading(true);
@@ -99,7 +162,6 @@ const LessonDetails = () => {
       return res.data;
     },
   });
-  console.log(recommendedLessons);
 
   return (
     <div className="section">
@@ -135,12 +197,23 @@ const LessonDetails = () => {
         {/* Stats & Engagement Interaction Buttons Section */}
 
         <div className="flex justify-center items-center gap-4 bg-base-200 rounded-2xl p-5">
-          <span className="badge badge-outline badge-primary">
-            <IoHeartOutline /> {lesson_detail.likesCount} Likes
+          <span
+            className={`badge  cursor-pointer ${
+              isLiked ? "badge-primary" : "badge-outline"
+            }`}
+            onClick={handleLike}
+          >
+            {isLiked ? <IoHeartSharp /> : <IoHeartOutline />}
+            {likesCount} Likes
           </span>
-          <span className="badge badge-outline badge-primary">
-            <IoBookmarkOutline />
-            {lesson_detail.favoritesCount} favorites
+          <span
+            className={`badge cursor-pointer ${
+              isFavorite ? "badge-primary" : "badge-outline"
+            }`}
+            onClick={handleFavorite}
+          >
+            {isFavorite ? <IoBookmark /> : <IoBookmarkOutline />}
+            {favoritesCount} favorites
           </span>
           <span className="badge badge-outline badge-primary">
             <LuView />
@@ -235,6 +308,7 @@ const LessonDetails = () => {
           </div>
         </div>
       </div>
+      {/* recommended Lessons */}
       <div className="section">
         <h2 className="text-center mb-1">Recommended Lessons</h2>
         <div>
