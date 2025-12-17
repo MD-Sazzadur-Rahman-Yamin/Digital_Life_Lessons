@@ -16,6 +16,9 @@ import {
   TwitterShareButton,
 } from "react-share";
 import ReportModal from "../../Components/Modals/ReportModal/ReportModal";
+import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-toastify";
 
 const LessonDetails = () => {
   const { lesson_detail, lesson_Id } = useFetchLessonDetails();
@@ -27,20 +30,51 @@ const LessonDetails = () => {
       return res.data;
     },
   });
-  const [views] = useState(() => Math.floor(Math.random() * 10000));
 
+  const { user } = useAuth();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const [views] = useState(() => Math.floor(Math.random() * 10000));
   const shareUrl = `${
     import.meta.env.VITE_API_URL
   }/lesson/Details/${lesson_Id}`;
-
-  // console.log(creatorData);
-  // console.log(lesson_detail);
 
   const ReportModalRef = useRef();
   const [reportModalData, setReportModalData] = useState(null);
   const handleOpenReportModal = (lesson_detail) => {
     setReportModalData(lesson_detail);
     ReportModalRef.current?.showModal();
+  };
+
+  const [addCommentLoading, setAddCommentLoading] = useState(false);
+  const handleComment = (data) => {
+    setAddCommentLoading(true);
+    const commentData = {
+      lessonId: lesson_detail._id,
+      userUid: user.uid,
+      commentText: data.comment,
+      createdAt: new Date(),
+    };
+    console.log(commentData);
+
+    axiosSecure
+      .post("/comments", commentData)
+      .then(() => {
+        setAddCommentLoading(false);
+        toast.success("Comment successfully");
+        reset();
+      })
+      .catch((err) => {
+        setAddCommentLoading(false);
+        console.error(err);
+        toast.error("Failed to add lesson. Try again.");
+      });
   };
 
   return (
@@ -110,6 +144,33 @@ const LessonDetails = () => {
               <LinkedinIcon size={40} round></LinkedinIcon>
             </LinkedinShareButton>
           </div>
+        </div>
+        {/* comments */}
+        <div className="flex justify-center items-center flex-col gap-4 bg-base-200 rounded-2xl p-5">
+          <div className="w-full">
+            <form onSubmit={handleSubmit(handleComment)}>
+              <label className="label">Leave your comment</label>
+              <textarea
+                className="textarea w-full min-h-40"
+                placeholder="Comment"
+                {...register("comment", { required: true })}
+              ></textarea>
+              {errors.Comment?.type === "required" && (
+                <p className="text-red-500 text-sm">Pleace enter a Comment</p>
+              )}
+              <button
+                className="btn btn-primary mt-4"
+                disabled={addCommentLoading}
+              >
+                {addCommentLoading ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Comment"
+                )}
+              </button>
+            </form>
+          </div>
+          <div></div>
         </div>
         {/* Author / Creator Section */}
         <div className="flex justify-center items-center gap-4 bg-base-200 rounded-2xl p-5">
