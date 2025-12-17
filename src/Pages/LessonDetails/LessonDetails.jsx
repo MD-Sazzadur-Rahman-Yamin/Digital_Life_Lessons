@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { format } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import Spinner from "../../Components/Spinner/Spinner";
 import useFetchLessonDetails from "../../Hooks/useFetchLessonDetails";
 import { useQuery } from "@tanstack/react-query";
@@ -58,10 +58,10 @@ const LessonDetails = () => {
     const commentData = {
       lessonId: lesson_detail._id,
       userUid: user.uid,
+      userName: user.displayName,
       commentText: data.comment,
       createdAt: new Date(),
     };
-    console.log(commentData);
 
     axiosSecure
       .post("/comments", commentData)
@@ -76,6 +76,16 @@ const LessonDetails = () => {
         toast.error("Failed to add lesson. Try again.");
       });
   };
+
+  const [toggleComment, setToggleComment] = useState(false);
+  const { data: comments = [] } = useQuery({
+    queryKey: ["lesson_comment", lesson_detail._id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/comments/${lesson_detail._id}`);
+      return res.data;
+    },
+  });
+  console.log(comments);
 
   return (
     <div className="section">
@@ -151,7 +161,7 @@ const LessonDetails = () => {
             <form onSubmit={handleSubmit(handleComment)}>
               <label className="label">Leave your comment</label>
               <textarea
-                className="textarea w-full min-h-40"
+                className="textarea w-full min-h-20"
                 placeholder="Comment"
                 {...register("comment", { required: true })}
               ></textarea>
@@ -159,7 +169,7 @@ const LessonDetails = () => {
                 <p className="text-red-500 text-sm">Pleace enter a Comment</p>
               )}
               <button
-                className="btn btn-primary mt-4"
+                className="btn btn-primary mt-4 w-full"
                 disabled={addCommentLoading}
               >
                 {addCommentLoading ? (
@@ -170,7 +180,27 @@ const LessonDetails = () => {
               </button>
             </form>
           </div>
-          <div></div>
+          <button
+            className="btn btn-primary btn-outline"
+            onClick={() => setToggleComment(!toggleComment)}
+          >
+            Show Comment
+          </button>
+          {toggleComment && (
+            <div className="bg-base-100 w-full rounded">
+              {comments.map((c) => (
+                <div key={c._id}>
+                  <div className="bg-base-200 p-1 flex items-center justify-between">
+                    <p>{c.userName}</p>
+                    <p>
+                      {formatDistanceToNow(c.createdAt, { addSuffix: true })}
+                    </p>
+                  </div>
+                  <div className="p-2">{c.commentText}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         {/* Author / Creator Section */}
         <div className="flex justify-center items-center gap-4 bg-base-200 rounded-2xl p-5">
