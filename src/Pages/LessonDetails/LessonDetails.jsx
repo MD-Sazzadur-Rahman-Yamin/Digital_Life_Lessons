@@ -188,17 +188,21 @@ const LessonDetails = () => {
           </button>
           {toggleComment && (
             <div className="bg-base-100 w-full rounded">
-              {comments.map((c) => (
-                <div key={c._id}>
-                  <div className="bg-base-200 p-1 flex items-center justify-between">
-                    <p>{c.userName}</p>
-                    <p>
-                      {formatDistanceToNow(c.createdAt, { addSuffix: true })}
-                    </p>
+              {comments.length > 0 ? (
+                comments.map((c) => (
+                  <div key={c._id}>
+                    <div className="bg-base-200 p-1 flex items-center justify-between">
+                      <p>{c.userName}</p>
+                      <p>
+                        {formatDistanceToNow(c.createdAt, { addSuffix: true })}
+                      </p>
+                    </div>
+                    <div className="p-2">{c.commentText}</div>
                   </div>
-                  <div className="p-2">{c.commentText}</div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-center my-1">No comment</p>
+              )}
             </div>
           )}
         </div>
