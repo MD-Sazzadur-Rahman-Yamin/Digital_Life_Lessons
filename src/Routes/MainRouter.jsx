@@ -8,13 +8,14 @@ import Upgrade from "../Pages/Upgrade/Upgrade";
 import PrivateRoute from "../Provider/PrivateRoute";
 import UpgradeSuccessful from "../Pages/Upgrade/UpgradeSuccessful";
 import UpgradeFailed from "../Pages/Upgrade/UpgradeFailed";
-import Dashboard from "../Layouts/DashboardLayout/DashboardLayout";
+import DashboardLayout from "../Layouts/DashboardLayout/DashboardLayout";
 import AddLesson from "../Pages/Dashboard/AddLesson/AddLesson";
 import MyLessons from "../Pages/Dashboard/MyLessons/MyLessons";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import PublicLessons from "../Pages/PublicLessons/PublicLessons";
 import LessonDetails from "../Pages/LessonDetails/LessonDetails";
 import PremiumOnlyRouter from "../Provider/PremiumOnlyRouter";
+import MyFavorites from "../Pages/Dashboard/MyFavorites/MyFavorites";
 
 const router = createBrowserRouter([
   {
@@ -78,7 +79,7 @@ const router = createBrowserRouter([
     path: "dashboard",
     element: (
       <PrivateRoute>
-        <Dashboard></Dashboard>
+        <DashboardLayout></DashboardLayout>
       </PrivateRoute>
     ),
     errorElement: <Error></Error>,
@@ -90,6 +91,10 @@ const router = createBrowserRouter([
       {
         path: "my-lessons",
         element: <MyLessons></MyLessons>,
+      },
+      {
+        path: "my-favorites",
+        element: <MyFavorites></MyFavorites>,
       },
       {
         path: "profile",

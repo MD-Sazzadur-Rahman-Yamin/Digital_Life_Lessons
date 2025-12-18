@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, Outlet } from "react-router";
 import ThemeToggle from "../../Components/ThemeToggle/ThemeToggle";
 import { RiArrowGoBackFill } from "react-icons/ri";
-import { IoHomeOutline } from "react-icons/io5";
+import { IoBookmarkOutline, IoHomeOutline } from "react-icons/io5";
 import { MdOutlineAddBox } from "react-icons/md";
 import { FiBook } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
@@ -100,6 +100,17 @@ const DashboardLayout = () => {
                 {/* icon */}
                 <FiBook />
                 <span className="is-drawer-close:hidden">My Lessons</span>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                data-tip="My Favorites"
+                to="/dashboard/my-favorites"
+              >
+                {/* icon */}
+                <IoBookmarkOutline />
+                <span className="is-drawer-close:hidden">My Favorites</span>
               </NavLink>
             </li>
             <li>

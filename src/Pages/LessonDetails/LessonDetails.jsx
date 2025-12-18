@@ -70,7 +70,7 @@ const LessonDetails = () => {
     }
   };
 
-  //
+  // * favorites
   const [isFavorite, setIsFavorite] = useState(
     lesson_detail?.isFavorite || false
   );
