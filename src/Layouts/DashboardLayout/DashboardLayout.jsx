@@ -1,13 +1,16 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router";
 import ThemeToggle from "../../Components/ThemeToggle/ThemeToggle";
-import { RiArrowGoBackFill } from "react-icons/ri";
+import { RiAdminLine, RiArrowGoBackFill } from "react-icons/ri";
 import { IoBookmarkOutline, IoHomeOutline } from "react-icons/io5";
 import { MdOutlineAddBox } from "react-icons/md";
 import { FiBook } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
+import useRole from "../../Hooks/useRole";
 
 const DashboardLayout = () => {
+  const { role } = useRole();
+
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -36,7 +39,7 @@ const DashboardLayout = () => {
                 <path d="M14 10l2 2l-2 2"></path>
               </svg>
             </label>
-            <div className="px-4">Navbar Title</div>
+            <div className="px-4">Dashboard</div>
           </div>
           <div>
             <ThemeToggle></ThemeToggle>
@@ -124,6 +127,19 @@ const DashboardLayout = () => {
                 <span className="is-drawer-close:hidden">Profile</span>
               </NavLink>
             </li>
+            {role === "admin" && (
+              <li>
+                <NavLink
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Admin"
+                  to="/dashboard/admin"
+                >
+                  {/* icon */}
+                  <RiAdminLine />
+                  <span className="is-drawer-close:hidden">Admin</span>
+                </NavLink>
+              </li>
+            )}
           </ul>
         </div>
       </div>

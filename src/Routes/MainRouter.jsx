@@ -16,6 +16,8 @@ import PublicLessons from "../Pages/PublicLessons/PublicLessons";
 import LessonDetails from "../Pages/LessonDetails/LessonDetails";
 import PremiumOnlyRouter from "../Provider/PremiumOnlyRouter";
 import MyFavorites from "../Pages/Dashboard/MyFavorites/MyFavorites";
+import AdminDashboard from "../Pages/Dashboard/AdminDashboard/AdminDashboard";
+import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome/AdminHome";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +101,16 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile></Profile>,
+      },
+      {
+        path: "admin",
+        element:<AdminDashboard></AdminDashboard>,
+        children:[
+          {
+            index:true,
+            element:<AdminHome></AdminHome>
+          }
+        ]
       },
     ],
   },
