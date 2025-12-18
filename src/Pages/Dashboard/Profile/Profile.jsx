@@ -3,10 +3,12 @@ import useAuth from "../../../Hooks/useAuth";
 import useIsPremium from "../../../Hooks/useIsPremium";
 import UpdateProfileModal from "../../../Components/Modals/UpdateProfileModal/UpdateProfileModal";
 import useFetchMyLessons from "../../../Hooks/useFetchMyLessons";
+import useRole from "../../../Hooks/useRole";
 
 const Profile = () => {
   const { user } = useAuth();
   const isPremium = useIsPremium();
+  const { role } = useRole();
 
   const { myAllLessons } = useFetchMyLessons();
 
@@ -26,6 +28,10 @@ const Profile = () => {
             </div>
           </div>
           {isPremium && <div className="badge badge-primary">Premium ⭐</div>}
+          {role === "admin" && (
+            <div className="badge badge-secondary">Admin 💎</div>
+          )}
+
           <button onClick={handleUpdateProfile} className="btn btn-secondary">
             Update Profile
           </button>

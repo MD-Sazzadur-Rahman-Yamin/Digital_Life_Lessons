@@ -9,7 +9,7 @@ const AdminDashboard = () => {
         <NavLink to="/dashboard/admin">Home</NavLink>
       </li>
       <li>
-        <a>Navbar Item 2</a>
+        <NavLink to="/dashboard/profile">Profile</NavLink>
       </li>
     </>
   );
