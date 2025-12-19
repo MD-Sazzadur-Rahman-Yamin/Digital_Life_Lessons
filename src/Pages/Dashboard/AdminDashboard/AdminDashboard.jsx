@@ -9,6 +9,9 @@ const AdminDashboard = () => {
         <NavLink to="/dashboard/admin">Home</NavLink>
       </li>
       <li>
+        <NavLink to="/dashboard/admin/manage-users">Manage Users</NavLink>
+      </li>
+      <li>
         <NavLink to="/dashboard/profile">Profile</NavLink>
       </li>
     </>

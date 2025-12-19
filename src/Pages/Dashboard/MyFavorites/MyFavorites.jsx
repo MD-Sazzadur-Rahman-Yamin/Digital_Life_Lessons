@@ -16,7 +16,6 @@ const MyFavorites = () => {
     },
   });
 
-  console.log(myFavorites);
 
   const tableHead = (
     <>
