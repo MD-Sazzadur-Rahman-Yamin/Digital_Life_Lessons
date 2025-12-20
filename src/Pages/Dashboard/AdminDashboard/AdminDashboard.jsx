@@ -15,6 +15,9 @@ const AdminDashboard = () => {
         <NavLink to="/dashboard/admin/manage-lessons">Manage Lessons</NavLink>
       </li>
       <li>
+        <NavLink to="/dashboard/admin/reported-lessons">Manage Lessons</NavLink>
+      </li>
+      <li>
         <NavLink to="/dashboard/profile">Profile</NavLink>
       </li>
     </>

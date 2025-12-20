@@ -21,6 +21,7 @@ import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome/AdminHome";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers";
 import ManageLessons from "../Pages/Dashboard/AdminDashboard/ManageLessons/ManageLessons";
 import AdminOnlyRouter from "./AdminOnlyRouter";
+import ReportedLessons from "../Pages/Dashboard/AdminDashboard/ReportedLessons/ReportedLessons";
 
 const router = createBrowserRouter([
   {
@@ -124,6 +125,10 @@ const router = createBrowserRouter([
           {
             path: "manage-lessons",
             element: <ManageLessons></ManageLessons>,
+          },
+          {
+            path: "reported-lessons",
+            element: <ReportedLessons></ReportedLessons>,
           },
         ],
       },

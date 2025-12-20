@@ -28,6 +28,7 @@ const ReportModal = ({ modalRef, modalData }) => {
     setReportLessonLoading(true);
     const reportData = {
       lessonId: modalData._id,
+      title: modalData.title,
       reporterUid: user.uid,
       reason: data.reason,
       timestamp: new Date(),
