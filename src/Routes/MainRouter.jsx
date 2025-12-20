@@ -19,6 +19,8 @@ import MyFavorites from "../Pages/Dashboard/MyFavorites/MyFavorites";
 import AdminDashboard from "../Pages/Dashboard/AdminDashboard/AdminDashboard";
 import AdminHome from "../Pages/Dashboard/AdminDashboard/AdminHome/AdminHome";
 import ManageUsers from "../Pages/Dashboard/AdminDashboard/ManageUsers/ManageUsers";
+import ManageLessons from "../Pages/Dashboard/AdminDashboard/ManageLessons/ManageLessons";
+import AdminOnlyRouter from "./AdminOnlyRouter";
 
 const router = createBrowserRouter([
   {
@@ -105,7 +107,11 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <AdminDashboard></AdminDashboard>,
+        element: (
+          <AdminOnlyRouter>
+            <AdminDashboard></AdminDashboard>
+          </AdminOnlyRouter>
+        ),
         children: [
           {
             index: true,
@@ -114,6 +120,10 @@ const router = createBrowserRouter([
           {
             path: "manage-users",
             element: <ManageUsers></ManageUsers>,
+          },
+          {
+            path: "manage-lessons",
+            element: <ManageLessons></ManageLessons>,
           },
         ],
       },
