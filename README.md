@@ -44,8 +44,6 @@ People often learn valuable lessons but forget them over time. This project aims
 
 ## Tech Stack
 
-_(Adjust according to your actual stack)_
-
 - Frontend: React.js
 - Backend: Node.js, Express.js
 - Database: MongoDB
