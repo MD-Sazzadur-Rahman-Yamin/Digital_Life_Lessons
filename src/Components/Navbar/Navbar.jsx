@@ -39,7 +39,7 @@ const Navbar = () => {
         <>
           {isPremium ? (
             <li>
-              <a>Premium ⭐</a>
+              <span className="text-yellow-500 font-semibold">Premium ⭐</span>
             </li>
           ) : (
             <li>
@@ -50,10 +50,13 @@ const Navbar = () => {
       )}
     </>
   );
+
   return (
-    <div className="bg-base-100 shadow-sm">
+    <div className="bg-base-100 shadow-sm relative z-50">
       <div className="navbar container mx-auto">
+        {/* Navbar Start */}
         <div className="navbar-start">
+          {/* Mobile Menu */}
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
@@ -73,31 +76,43 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow"
             >
               {navigationLinks}
             </ul>
           </div>
+
+          {/* Logo */}
           <Link to="/">
-            <span className="btn btn-ghost text-xl">Digital Life Lessons</span>
+            <span className="btn btn-ghost text-xl font-bold">
+              Digital Life Lessons
+            </span>
           </Link>
         </div>
+
+        {/* Navbar Center */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navigationLinks}</ul>
         </div>
-        <div className="navbar-end gap-2">
+
+        {/* Navbar End */}
+        <div className="navbar-end flex items-center gap-2">
           {user ? (
-            <div className="dropdown dropdown-end">
+            <div className="dropdown dropdown-end relative">
               <div
                 tabIndex={0}
                 role="button"
                 className="btn btn-ghost btn-circle avatar"
               >
-                <div className="w-10 rounded-full">
-                  {user ? (
-                    <img alt="Profile" src={user?.photoURL} />
+                <div className="w-10 h-10 rounded-full overflow-hidden">
+                  {user.photoURL ? (
+                    <img
+                      className="w-full h-full object-cover"
+                      alt={user.displayName || "User Avatar"}
+                      src={user.photoURL}
+                    />
                   ) : (
-                    <div className="flex justify-center items-center">
+                    <div className="flex justify-center items-center w-full h-full">
                       <CgProfile className="h-full w-full" />
                     </div>
                   )}
@@ -105,9 +120,9 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex="-1"
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow z-50"
               >
-                <li className="text-center">
+                <li className="text-center font-semibold">
                   {user.displayName ? user.displayName : "Name not found"}
                 </li>
                 <li>
@@ -135,7 +150,7 @@ const Navbar = () => {
               </Link>
             </div>
           )}
-          <ThemeToggle></ThemeToggle>
+          <ThemeToggle />
         </div>
       </div>
     </div>

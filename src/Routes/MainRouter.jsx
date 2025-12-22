@@ -23,29 +23,133 @@ import ManageLessons from "../Pages/Dashboard/AdminDashboard/ManageLessons/Manag
 import AdminOnlyRouter from "./AdminOnlyRouter";
 import ReportedLessons from "../Pages/Dashboard/AdminDashboard/ReportedLessons/ReportedLessons";
 
+// const router = createBrowserRouter([
+//   {
+//     path: "/",
+//     element: <MainLandingLayout></MainLandingLayout>,
+//     errorElement: <Error></Error>,
+//     children: [
+//       {
+//         index: true,
+//         element: <Home></Home>,
+//       },
+//       {
+//         path: "register",
+//         element: <Register></Register>,
+//       },
+//       {
+//         path: "login",
+//         element: <Login></Login>,
+//       },
+//       {
+//         path: "upgrade",
+//         element: (
+//           <PrivateRoute>
+//             <Upgrade></Upgrade>
+//           </PrivateRoute>
+//         ),
+//       },
+//       {
+//         path: "upgrade-successful",
+//         element: (
+//           <PrivateRoute>
+//             <UpgradeSuccessful></UpgradeSuccessful>
+//           </PrivateRoute>
+//         ),
+//       },
+//       {
+//         path: "upgrade-failed",
+//         element: (
+//           <PrivateRoute>
+//             <UpgradeFailed></UpgradeFailed>
+//           </PrivateRoute>
+//         ),
+//       },
+//       {
+//         path: "public-lessons",
+//         element: <PublicLessons></PublicLessons>,
+//       },
+//       {
+//         path: "/lesson/Details/:id",
+//         element: (
+//           <PrivateRoute>
+//             <PremiumOnlyRouter>
+//               <LessonDetails></LessonDetails>
+//             </PremiumOnlyRouter>
+//           </PrivateRoute>
+//         ),
+//       },
+//     ],
+//   },
+//   {
+//     path: "dashboard",
+//     element: (
+//       <PrivateRoute>
+//         <DashboardLayout></DashboardLayout>
+//       </PrivateRoute>
+//     ),
+//     errorElement: <Error></Error>,
+//     children: [
+//       {
+//         path: "add-lesson",
+//         element: <AddLesson></AddLesson>,
+//       },
+//       {
+//         path: "my-lessons",
+//         element: <MyLessons></MyLessons>,
+//       },
+//       {
+//         path: "my-favorites",
+//         element: <MyFavorites></MyFavorites>,
+//       },
+//       {
+//         path: "profile",
+//         element: <Profile></Profile>,
+//       },
+//       {
+//         path: "admin",
+//         element: (
+//           <AdminOnlyRouter>
+//             <AdminDashboard></AdminDashboard>
+//           </AdminOnlyRouter>
+//         ),
+//         children: [
+//           {
+//             index: true,
+//             element: <AdminHome></AdminHome>,
+//           },
+//           {
+//             path: "manage-users",
+//             element: <ManageUsers></ManageUsers>,
+//           },
+//           {
+//             path: "manage-lessons",
+//             element: <ManageLessons></ManageLessons>,
+//           },
+//           {
+//             path: "reported-lessons",
+//             element: <ReportedLessons></ReportedLessons>,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]);
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLandingLayout></MainLandingLayout>,
-    errorElement: <Error></Error>,
+    element: <MainLandingLayout />,
+    errorElement: <Error />, // root-level error for loader/action errors
     children: [
-      {
-        index: true,
-        element: <Home></Home>,
-      },
-      {
-        path: "register",
-        element: <Register></Register>,
-      },
-      {
-        path: "login",
-        element: <Login></Login>,
-      },
+      { index: true, element: <Home /> },
+      { path: "register", element: <Register /> },
+      { path: "login", element: <Login /> },
       {
         path: "upgrade",
         element: (
           <PrivateRoute>
-            <Upgrade></Upgrade>
+            <Upgrade />
           </PrivateRoute>
         ),
       },
@@ -53,7 +157,7 @@ const router = createBrowserRouter([
         path: "upgrade-successful",
         element: (
           <PrivateRoute>
-            <UpgradeSuccessful></UpgradeSuccessful>
+            <UpgradeSuccessful />
           </PrivateRoute>
         ),
       },
@@ -61,79 +165,61 @@ const router = createBrowserRouter([
         path: "upgrade-failed",
         element: (
           <PrivateRoute>
-            <UpgradeFailed></UpgradeFailed>
+            <UpgradeFailed />
           </PrivateRoute>
         ),
       },
-      {
-        path: "public-lessons",
-        element: <PublicLessons></PublicLessons>,
-      },
+      { path: "public-lessons", element: <PublicLessons /> },
       {
         path: "/lesson/Details/:id",
         element: (
           <PrivateRoute>
             <PremiumOnlyRouter>
-              <LessonDetails></LessonDetails>
+              <LessonDetails />
             </PremiumOnlyRouter>
           </PrivateRoute>
         ),
       },
+
+      // ✅ catch-all for unmatched routes under main layout
+      { path: "*", element: <Error /> },
     ],
   },
   {
     path: "dashboard",
     element: (
       <PrivateRoute>
-        <DashboardLayout></DashboardLayout>
+        <DashboardLayout />
       </PrivateRoute>
     ),
-    errorElement: <Error></Error>,
+    errorElement: <Error />,
     children: [
-      {
-        path: "add-lesson",
-        element: <AddLesson></AddLesson>,
-      },
-      {
-        path: "my-lessons",
-        element: <MyLessons></MyLessons>,
-      },
-      {
-        path: "my-favorites",
-        element: <MyFavorites></MyFavorites>,
-      },
-      {
-        path: "profile",
-        element: <Profile></Profile>,
-      },
+      { path: "add-lesson", element: <AddLesson /> },
+      { path: "my-lessons", element: <MyLessons /> },
+      { path: "my-favorites", element: <MyFavorites /> },
+      { path: "profile", element: <Profile /> },
       {
         path: "admin",
         element: (
           <AdminOnlyRouter>
-            <AdminDashboard></AdminDashboard>
+            <AdminDashboard />
           </AdminOnlyRouter>
         ),
         children: [
-          {
-            index: true,
-            element: <AdminHome></AdminHome>,
-          },
-          {
-            path: "manage-users",
-            element: <ManageUsers></ManageUsers>,
-          },
-          {
-            path: "manage-lessons",
-            element: <ManageLessons></ManageLessons>,
-          },
-          {
-            path: "reported-lessons",
-            element: <ReportedLessons></ReportedLessons>,
-          },
+          { index: true, element: <AdminHome /> },
+          { path: "manage-users", element: <ManageUsers /> },
+          { path: "manage-lessons", element: <ManageLessons /> },
+          { path: "reported-lessons", element: <ReportedLessons /> },
+          // ✅ catch-all for unmatched admin routes
+          { path: "*", element: <Error /> },
         ],
       },
+      // ✅ catch-all for unmatched dashboard routes
+      { path: "*", element: <Error /> },
     ],
   },
+  // ✅ global catch-all for any unmatched URL
+  { path: "*", element: <Error /> },
 ]);
 
 export default router;
